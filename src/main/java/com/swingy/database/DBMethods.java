@@ -20,7 +20,7 @@ public class DBMethods {
                 System.out.println( "database created" );
             }
         } catch ( SQLException ex ) {
-            System.out.println(  "ERROR: Unable to create database" );
+            System.out.println( "ERROR: Unable to create database" );
             ex.printStackTrace();
             System.exit( 0 );
         }
@@ -45,7 +45,6 @@ public class DBMethods {
                 Connection conn = dbCon.connect();
                 Statement stmt = conn.createStatement()
         ) {
-            //create table
             stmt.executeUpdate( sql );
             System.out.println( "table added" );
         } catch ( SQLException ex ) {
@@ -81,7 +80,7 @@ public class DBMethods {
             System.out.println( "\nNew hero added to database" );
         } catch ( SQLException ex ) {
             System.out.println( "\nError: Hero name '" + heroName + "' already in use" );
-            //	System.exit(0);
+            System.exit( 0 );
         }
     }
 
@@ -94,8 +93,6 @@ public class DBMethods {
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery( sql )
         ) {
-
-//            System.out.println( "These are all saved heroes" );
             while ( rs.next() ) {
                 System.out.println( "\nID: " + rs.getInt( "heroID" ) +
                                             "\nName: " + rs.getString( "heroName" ) +
@@ -108,7 +105,7 @@ public class DBMethods {
             }
         } catch ( SQLException ex ) {
             System.out.println( ex.getMessage() + "selection error" );
-            //	System.exit(0);
+            System.exit( 0 );
         }
     }
 
@@ -118,13 +115,14 @@ public class DBMethods {
         String sql = "SELECT * FROM heroes";
         ArrayList<String> list = new ArrayList<>();
         String[] listArr = new String[list.size()];
-        ResultSet rs = null;
+        ResultSet rs;
         try {
-                Connection conn = dbCon.connect();
-                Statement stmt = conn.createStatement();
-                rs = stmt.executeQuery( sql );
-            for (int i = 1; rs.next(); i++) {
-                list.add(String.format("Id:%d %s (%s) lvl %d exp %d hp %d attack %d def %d",
+            Connection conn = dbCon.connect();
+            Statement stmt = conn.createStatement();
+            rs = stmt.executeQuery( sql );
+            for ( int i = 1; rs.next(); i++ ) {
+                list.add( String.format(
+                        "Id:%d %s (%s) lvl %d exp %d hp %d attack %d def %d",
                         rs.getInt( "heroID" ),
                         rs.getString( "heroName" ),
                         rs.getString( "heroClass" ),
@@ -132,25 +130,13 @@ public class DBMethods {
                         rs.getInt( "heroExp" ),
                         rs.getInt( "heroHP" ),
                         rs.getInt( "HeroAtk" ),
-                        rs.getInt( "HeroDef" ) ));
+                        rs.getInt( "HeroDef" )
+                ) );
             }
-            listArr = list.toArray(listArr);
-//        )
-
-//            System.out.println( "These are all saved heroes" );
-//            while ( rs.next() ) {
-//                System.out.println( "\nID: " + rs.getInt( "heroID" ) +
-//                        "\nName: " + rs.getString( "heroName" ) +
-//                        "\nClass: " + rs.getString( "heroClass" ) +
-//                        "\nLevel: " + rs.getInt( "heroLevel" ) +
-//                        "\nExperience: " + rs.getInt( "heroExp" ) +
-//                        "\nHit Points: " + rs.getInt( "heroHP" ) +
-//                        "\nAttack: " + rs.getInt( "HeroAtk" ) +
-//                        "\nDefense: " + rs.getInt( "HeroDef" ) );
-//            }
+            listArr = list.toArray( listArr );
         } catch ( SQLException ex ) {
             System.out.println( ex.getMessage() + "selection error" );
-            //	System.exit(0);
+            System.exit( 0 );
         }
         return listArr;
     }
@@ -172,7 +158,7 @@ public class DBMethods {
             }
         } catch ( SQLException ex ) {
             System.out.println( ex.getMessage() + "selection error" );
-            //	System.exit(0);
+            System.exit( 0 );
         }
         return toReturn;
     }
@@ -182,27 +168,29 @@ public class DBMethods {
         String sql = "SELECT * FROM heroes WHERE heroName = '" + heroName + "'";
         ArrayList<String> list = new ArrayList<>();
         String[] listArr = new String[list.size()];
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             Connection conn = dbCon.connect();
             Statement stmt = conn.createStatement();
             rs = stmt.executeQuery( sql );
-            for (int i = 1; rs.next(); i++) {
-                list.add(String.format("Id:%d %s (%s) lvl %d exp %d hp %d attack %d def %d",
-                          rs.getInt( "heroID" ),
-                          rs.getString( "heroName" ),
-                          rs.getString( "heroClass" ),
-                          rs.getInt( "heroLevel" ),
-                          rs.getInt( "heroExp" ),
-                          rs.getInt( "heroHP" ),
-                          rs.getInt( "HeroAtk" ),
-                          rs.getInt( "HeroDef" ) )
+            for ( int i = 1; rs.next(); i++ ) {
+                list.add( String.format(
+                        "Id:%d %s (%s) lvl %d exp %d hp %d attack %d def %d",
+                        rs.getInt( "heroID" ),
+                        rs.getString( "heroName" ),
+                        rs.getString( "heroClass" ),
+                        rs.getInt( "heroLevel" ),
+                        rs.getInt( "heroExp" ),
+                        rs.getInt( "heroHP" ),
+                        rs.getInt( "HeroAtk" ),
+                        rs.getInt( "HeroDef" )
+                          )
                 );
             }
-            listArr = list.toArray(listArr);
+            listArr = list.toArray( listArr );
         } catch ( SQLException ex ) {
             System.out.println( ex.getMessage() + "selection error" );
-            //	System.exit(0);
+            	System.exit(0);
         }
         return listArr;
     }
@@ -228,7 +216,7 @@ public class DBMethods {
             }
         } catch ( SQLException ex ) {
             System.out.println( ex.getMessage() + "\nError: Hero Does not exist" );
-            //	System.exit(0);
+            	System.exit(0);
         }
     }
 
@@ -255,24 +243,6 @@ public class DBMethods {
                 heroHP = rs.getInt( "heroHP" );
                 heroAtk = rs.getInt( "heroAtk" );
                 heroDef = rs.getInt( "heroDef" );
-
-//				switch(heroClass.toLowerCase()){
-//					case "witcher":
-//						HeroBuild witcher = new Witcher(heroName);
-//						heroCreator = new HeroCreator(witcher);
-//						break;
-//					case "mage":
-//						HeroBuild mage = new Mage(heroName);
-//						heroCreator = new HeroCreator(mage);
-//						break;
-//					case "fighter":
-//						HeroBuild fighter = new Fighter(heroName);
-//						heroCreator = new HeroCreator(fighter);
-//						break;
-//					default:
-//						throw new IllegalStateException("Unexpected value: " + heroClass);
-//				}
-//				heroCreator.createHero();
                 int heroClassFactory = 0;
                 if ( heroClass.toLowerCase().equals( "witcher" ) ) {
                     heroClassFactory = 1;
@@ -282,7 +252,6 @@ public class DBMethods {
                     heroClassFactory = 3;
                 }
                 heroCreator = HeroFactory.newHero( heroClassFactory, heroName );
-
 
                 hero = heroCreator.getHero();
                 hero.setLevel( heroLvl );
@@ -297,7 +266,6 @@ public class DBMethods {
         }
         return null;
     }
-
 
     public void updateHero(
             String heroName,

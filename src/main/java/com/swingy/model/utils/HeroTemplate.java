@@ -2,17 +2,17 @@ package com.swingy.model.utils;
 
 public interface HeroTemplate {
 
-	void heroClass();
+    void heroClass();
 
-	void heroLevel();
+    void heroLevel();
 
-	void heroExperience();
+    void heroExperience();
 
-	void heroAttack();
+    void heroAttack();
 
-	void heroDefense();
+    void heroDefense();
 
-	void heroHitPoints();
+    void heroHitPoints();
 
-	Hero getHero();
+    Hero getHero();
 }

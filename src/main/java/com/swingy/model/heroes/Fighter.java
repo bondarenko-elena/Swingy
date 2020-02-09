@@ -5,38 +5,45 @@ import com.swingy.model.utils.HeroTemplate;
 
 public class Fighter implements HeroTemplate {
 
-	private Hero hero;
+    private Hero hero;
 
-	public Fighter(String heroNNme){
-		this.hero = new Hero();
-		hero.setName(heroNNme);
-	}
+    public Fighter( String heroName ) {
+        this.hero = new Hero();
+        this.hero.setName( heroName );
+    }
 
-	public Hero getHero() {
-		return hero;
-	}
+    @Override
+    public Hero getHero() {
+        return this.hero;
+    }
 
-	public void heroClass() {
-		hero.setClass("Fighter");
-	}
+    @Override
+    public void heroClass() {
+        this.hero.setClass( "Fighter" );
+    }
 
-	public void heroLevel() {
-		hero.setLevel(1);
-	}
+    @Override
+    public void heroLevel() {
+        this.hero.setLevel( 1 );
+    }
 
-	public void heroExperience() {
-		hero.setExperience(1000);
-	}
+    @Override
+    public void heroExperience() {
+        this.hero.setExperience( 1000 );
+    }
 
-	public void heroAttack() {
-		hero.setAttack(120);
-	}
+    @Override
+    public void heroAttack() {
+        this.hero.setAttack( 120 );
+    }
 
-	public void heroDefense() {
-		hero.setDefense(95);
-	}
+    @Override
+    public void heroDefense() {
+        this.hero.setDefense( 95 );
+    }
 
-	public void heroHitPoints() {
-		hero.setHitPoints(220);
-	}
+    @Override
+    public void heroHitPoints() {
+        this.hero.setHitPoints( 220 );
+    }
 }

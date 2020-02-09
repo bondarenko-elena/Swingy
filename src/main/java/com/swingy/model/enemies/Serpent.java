@@ -4,43 +4,46 @@ import com.swingy.model.utils.Hero;
 import com.swingy.model.utils.HeroTemplate;
 
 public class Serpent implements HeroTemplate {
-	private Hero serpent;
-	public Serpent(){
-		this.serpent = new Hero();
-		this.serpent.setName("Slither");
-	}
-	@Override
-	public void heroClass() {
-	serpent.setClass("Serpent");
-	}
 
-	@Override
-	public void heroLevel() {
-	serpent.setLevel(1);
-	}
+    private Hero enemy;
 
-	@Override
-	public void heroExperience() {
-	serpent.setExperience(900);
-	}
+    public Serpent() {
+        this.enemy = new Hero();
+        this.enemy.setName( "Serpent" );
+    }
 
-	@Override
-	public void heroAttack() {
-	serpent.setAttack(130);
-	}
+    @Override
+    public void heroClass() {
+        this.enemy.setClass( "Serpent" );
+    }
 
-	@Override
-	public void heroDefense() {
-	serpent.setDefense(135);
-	}
+    @Override
+    public void heroLevel() {
+        this.enemy.setLevel( 1 );
+    }
 
-	@Override
-	public void heroHitPoints() {
-	serpent.setHitPoints(250);
-	}
+    @Override
+    public void heroExperience() {
+        this.enemy.setExperience( 800 );
+    }
 
-	@Override
-	public Hero getHero() {
-		return serpent;
-	}
+    @Override
+    public void heroAttack() {
+        this.enemy.setAttack( 120 );
+    }
+
+    @Override
+    public void heroDefense() {
+        this.enemy.setDefense( 140 );
+    }
+
+    @Override
+    public void heroHitPoints() {
+        this.enemy.setHitPoints( 250 );
+    }
+
+    @Override
+    public Hero getHero() {
+        return this.enemy;
+    }
 }

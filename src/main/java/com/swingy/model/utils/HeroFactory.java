@@ -19,10 +19,10 @@ public class HeroFactory {
         } else if ( heroClass == 3 ) {
             heroTemplate = new Mage( heroName );
             toReturn = new HeroCreator( heroTemplate );
-        } else if (heroClass == 4 ) {
+        } else if ( heroClass == 4 ) {
             heroTemplate = new Serpent();
             toReturn = new HeroCreator( heroTemplate );
-        } else if (heroClass == 5 ) {
+        } else if ( heroClass == 5 ) {
             heroTemplate = new Goblin();
             toReturn = new HeroCreator( heroTemplate );
         } else {

@@ -8,79 +8,91 @@ import javax.validation.constraints.Size;
 
 public class Hero implements HeroStatistics {
 
-	@NotBlank(message = "hero name cannot be blank")
-	@NotNull(message = "Hero name cannot be null")
-	@Length(min = 3, max = 15, message = "hero name has to be between 3 and 15 characters long")
-	private String heroName;
+    @NotNull( message = "Hero name can not be null" )
+    @NotBlank( message = "Hero name can not be blank" )
+    @Length( min = 3, max = 10, message = "Hero name has to be between 3 and 10 characters long" )
+    private String heroName;
 
-	@NotBlank(message = "Class cannot be blank")
-	@NotNull(message = "Can't have a blank class")
-	private String heroClass;
-	@Size(min = 1, max = 7, message =  "hero cap is level 7")
-	private int level;
-	@Size(min = 1000, max = 200000, message = "Xp cap")
-	private int experience;
-	@Size(min = 50, max = 1000, message = "max attack points")
-	private int attack;
-	@Size(min = 25, max = 900, message = "Max defense")
-	private int defense;
-	@Size(min = 50, max = 2000, message = "Max HP")
-	private int hp;
+    @NotNull( message = "Can not have a blank class" )
+    @NotBlank( message = "Class can not be blank" )
+    private String heroClass;
 
+    @Size( min = 1, max = 7, message = "Level capacity 7" )
+    private int level;
 
-	public void setName(String heroName) {
-		this.heroName = heroName;
-	}
-	
-	public String getHeroName() {
-		return heroName;
-	}
+    @Size( min = 1000, max = 200000, message = "Xp capacity" )
+    private int experience;
 
-	public void setClass(String heroClass) {
-		this.heroClass = heroClass;
-	}
-	
-	public String getHeroClass() {
-		return heroClass;
-	}
+    @Size( min = 50, max = 1000, message = "Max attack points" )
+    private int attack;
 
+    @Size( min = 25, max = 900, message = "Max defense" )
+    private int defense;
 
-	public void setLevel(int level) {
-		this.level = level;
-	}
-	
-	public int getHeroLevel() { return level; }
+    @Size( min = 50, max = 2000, message = "Max HP" )
+    private int hp;
 
-	public void setExperience(int experience) {
-		this.experience = experience;
-	}
-	
-	public int getExperience() {
-		return experience;
-	}
-	
-	public void setAttack(int attack) {
-		this.attack = attack;
-	}
+    @Override
+    public void setName( String heroName ) {
+        this.heroName = heroName;
+    }
 
-	public int getAttack() {
-		return attack;
-	}
+    public String getHeroName() {
+        return this.heroName;
+    }
 
-	public void setDefense(int defense) {
-		this.defense = defense;
-	}
+    @Override
+    public void setClass( String heroClass ) {
+        this.heroClass = heroClass;
+    }
 
-	public int getDefense() {
-		return defense;
-	}
+    public String getHeroClass() {
+        return this.heroClass;
+    }
 
-	public void setHitPoints(int hp) {
-		this.hp = hp;
-	}
+    @Override
+    public void setLevel( int level ) {
+        this.level = level;
+    }
 
-	public int getHitPoints() {
-		return hp;
-	}
+    public int getHeroLevel() {
+        return this.level;
+    }
+
+    @Override
+    public void setExperience( int experience ) {
+        this.experience = experience;
+    }
+
+    public int getExperience() {
+        return this.experience;
+    }
+
+    @Override
+    public void setAttack( int attack ) {
+        this.attack = attack;
+    }
+
+    public int getAttack() {
+        return this.attack;
+    }
+
+    @Override
+    public void setDefense( int defense ) {
+        this.defense = defense;
+    }
+
+    public int getDefense() {
+        return this.defense;
+    }
+
+    @Override
+    public void setHitPoints( int hp ) {
+        this.hp = hp;
+    }
+
+    public int getHitPoints() {
+        return this.hp;
+    }
 
 }

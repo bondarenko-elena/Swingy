@@ -2,30 +2,22 @@ package com.swingy.model.utils;
 
 public class HeroCreator {
 
-	private HeroTemplate heroTemplate;
+    private HeroTemplate heroTemplate;
 
-	public HeroCreator(HeroTemplate heroBuild) {
-		this.heroTemplate = heroBuild;
-	}
+    public HeroCreator( HeroTemplate heroBuild ) {
+        this.heroTemplate = heroBuild;
+    }
 
-	public Hero getHero() {
-		return this.heroTemplate.getHero();
-	}
+    public Hero getHero() {
+        return this.heroTemplate.getHero();
+    }
 
-	public void createHero() {
-
-		this.heroTemplate.heroClass();
-
-		this.heroTemplate.heroLevel();
-
-		this.heroTemplate.heroExperience();
-
-		this.heroTemplate.heroAttack();
-
-		this.heroTemplate.heroDefense();
-
-		this.heroTemplate.heroHitPoints();
-
-	}
-
+    public void createHero() {
+        this.heroTemplate.heroClass();
+        this.heroTemplate.heroLevel();
+        this.heroTemplate.heroExperience();
+        this.heroTemplate.heroAttack();
+        this.heroTemplate.heroDefense();
+        this.heroTemplate.heroHitPoints();
+    }
 }

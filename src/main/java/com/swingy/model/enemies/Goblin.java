@@ -5,38 +5,45 @@ import com.swingy.model.utils.HeroTemplate;
 
 public class Goblin implements HeroTemplate {
 
-	private Hero goblin;
+    private Hero enemy;
 
-	public Goblin(){
-		this.goblin = new Hero();
-		this.goblin.setName("Gobby");
-	}
+    public Goblin() {
+        this.enemy = new Hero();
+        this.enemy.setName( "Goblin" );
+    }
 
-	public void heroClass() {
-	goblin.setClass("Goblin");
-	}
+    @Override
+    public void heroClass() {
+        this.enemy.setClass( "Goblin" );
+    }
 
-	public void heroLevel() {
-	goblin.setLevel(1);
-	}
+    @Override
+    public void heroLevel() {
+        this.enemy.setLevel( 1 );
+    }
 
-	public void heroExperience() {
-	goblin.setExperience(650);
-	}
+    @Override
+    public void heroExperience() {
+        this.enemy.setExperience( 650 );
+    }
 
-	public void heroAttack() {
-	goblin.setAttack(125);
-	}
+    @Override
+    public void heroAttack() {
+        this.enemy.setAttack( 135 );
+    }
 
-	public void heroDefense() {
-	goblin.setDefense(60);
-	}
+    @Override
+    public void heroDefense() {
+        this.enemy.setDefense( 50 );
+    }
 
-	public void heroHitPoints() {
-	goblin.setHitPoints(300);
-	}
+    @Override
+    public void heroHitPoints() {
+        this.enemy.setHitPoints( 290 );
+    }
 
-	public Hero getHero() {
-		return goblin;
-	}
+    @Override
+    public Hero getHero() {
+        return this.enemy;
+    }
 }
