@@ -5,16 +5,17 @@ import com.swingy.model.utils.HeroTemplate;
 
 public class Serpent implements HeroTemplate {
 
+    private final String NAME = "Serpent";
     private Hero enemy;
 
     public Serpent() {
         this.enemy = new Hero();
-        this.enemy.setName( "Serpent" );
+        this.enemy.setName( NAME );
     }
 
     @Override
     public void heroClass() {
-        this.enemy.setClass( "Serpent" );
+        this.enemy.setClass( NAME );
     }
 
     @Override

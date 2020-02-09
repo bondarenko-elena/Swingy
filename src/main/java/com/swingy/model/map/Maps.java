@@ -16,29 +16,25 @@ public class Maps {
     private Hero hero;
     private String[] listArr;
 
-    public Maps( Hero hero ) {
+    public Maps( Hero hero, View view ) {
         this.hero = hero;
         setMap( hero );
         setEnemy();
-        printMaps();
-    }
-
-    public Maps( Hero hero, String gui ) {
-        this.hero = hero;
-        setMap( hero );
-        setEnemy();
-        refreshData();
+        if ( view == View.GUI ) {
+            refreshData();
+        } else {
+            printMaps();
+        }
     }
 
     private void refreshData() {
         ArrayList<String> list = new ArrayList<>();
-        String str;
         for ( int i = 0; i < mapSize; i++ ) {
-            str = "";
+            StringBuilder str = new StringBuilder();
             for ( int k = 0; k < mapSize; k++ ) {
-                str += " " + this.map[i][k];
+                str.append( " " ).append( this.map[i][k] );
             }
-            list.add( str );
+            list.add( str.toString() );
         }
         listArr = list.toArray( new String[0] );
     }
@@ -65,9 +61,11 @@ public class Maps {
         this.map[xHero][yHero] = 'H';
     }
 
+    // TODO pass View var to print if needed
     private void printMaps() {
         for ( int i = 0; i < mapSize; i++ ) {
             for ( int k = 0; k < mapSize; k++ ) {
+                // TODO write to StringBuilder and print once
                 System.out.print( " " + this.map[i][k] + " " );
             }
             System.out.print( "\n" );
@@ -75,25 +73,16 @@ public class Maps {
     }
 
     public boolean meetEnemy( @NotNull String navigation ) {
-        boolean toReturn = false;
         if ( navigation.equalsIgnoreCase( "n" ) ) {
-            if ( this.map[xHero - 1][yHero] == '#' ) {
-                toReturn = true;
-            }
+            return this.map[xHero - 1][yHero] == '#';
         } else if ( navigation.equalsIgnoreCase( "s" ) ) {
-            if ( this.map[xHero + 1][yHero] == '#' ) {
-                toReturn = true;
-            }
+            return this.map[xHero + 1][yHero] == '#';
         } else if ( navigation.equalsIgnoreCase( "w" ) ) {
-            if ( this.map[xHero][yHero -= 1] == '#' ) {
-                toReturn = true;
-            }
+            return this.map[xHero][yHero - 1] == '#';
         } else if ( navigation.equalsIgnoreCase( "e" ) ) {
-            if ( this.map[xHero][yHero += 1] == '#' ) {
-                toReturn = true;
-            }
+            return this.map[xHero][yHero + 1] == '#';
         }
-        return toReturn;
+        return false;
     }
 
     private void enemyCoordinates( @NotNull Maps maps ) {
@@ -113,76 +102,62 @@ public class Maps {
         enemyCoordinates( this );
     }
 
+    //TODO make sex with navigationConsole
     private String navigationGui( @NotNull String direction ) {
-        String toReturn = null;
-        while ( true ) {
-            if ( checkEdge() ) {
-                toReturn = "END";
-                return toReturn;
-            } else {
-                if ( direction.toLowerCase().equals( "n" ) ) {
+        if ( checkEdge() ) {
+            return "END";
+        } else {
+            switch ( direction.toLowerCase() ) {
+                case "n":
                     if ( checkEdge() ) {
-                        toReturn = "END";
-                        return toReturn;
+                        return "END";
                     }
                     if ( meetEnemy( direction ) ) {
-                        toReturn = "FIGHT";
-                        return toReturn;
+                        return "FIGHT";
                     }
                     this.map[--xHero][yHero] = 'H';
                     this.map[xHero + 1][yHero] = '*';
-                    toReturn = "CONTINUE";
-                    return toReturn;
-                } else if ( direction.toLowerCase().equals( "s" ) ) {
+                    return "CONTINUE";
+                case "s":
                     if ( checkEdge() ) {
-                        toReturn = "END";
-                        return toReturn;
+                        return "END";
                     }
                     if ( meetEnemy( direction ) ) {
-                        toReturn = "FIGHT";
-                        return toReturn;
+                        return "FIGHT";
                     }
                     this.map[++xHero][yHero] = 'H';
                     this.map[xHero - 1][yHero] = '*';
-                    toReturn = "CONTINUE";
-                    return toReturn;
-                } else if ( direction.toLowerCase().equals( "e" ) ) {
+                    return "CONTINUE";
+                case "e":
                     if ( checkEdge() ) {
-                        toReturn = "END";
-                        return toReturn;
+                        return "END";
                     }
                     if ( meetEnemy( direction ) ) {
-                        toReturn = "FIGHT";
-                        return toReturn;
+                        return "FIGHT";
                     }
-//                    this.map[xHero][yHero + 1] = 'H';
-                    this.map[xHero][yHero] = 'H';
+                    this.map[xHero][++yHero] = 'H';
                     this.map[xHero][yHero - 1] = '*';
-                    toReturn = "CONTINUE";
-                    return toReturn;
-                } else if ( direction.toLowerCase().equals( "w" ) ) {
+                    return "CONTINUE";
+                case "w":
                     if ( checkEdge() ) {
-                        toReturn = "END";
-                        return toReturn;
+                        return "END";
                     }
                     if ( meetEnemy( direction ) ) {
-                        toReturn = "FIGHT";
-                        return toReturn;
+                        return "FIGHT";
                     }
-                    this.map[xHero][yHero] = 'H';
+                    this.map[xHero][--yHero] = 'H';
                     this.map[xHero][yHero + 1] = '*';
-                    toReturn = "CONTINUE";
-                    return toReturn;
-                } else {
+                    return "CONTINUE";
+                default:
                     System.out.println( "Invalid navigation." );
                     System.exit( 1 );
-                }
+                    return null;
             }
-            return toReturn;
         }
     }
 
     private String navigation( @NotNull String direction ) {
+        // TODO same as above (inline)
         String toReturn = null;
         while ( true ) {
             if ( checkEdge() ) {
@@ -227,7 +202,7 @@ public class Maps {
                         return toReturn;
                     }
 //                    this.map[xHero][yHero + 1] = 'H';
-                    this.map[xHero][yHero] = 'H';
+                    this.map[xHero][++yHero] = 'H';
                     this.map[xHero][yHero - 1] = '*';
                     printMaps();
                     toReturn = "CONTINUE";
@@ -242,7 +217,7 @@ public class Maps {
                         return toReturn;
                     }
 //                    this.map[xHero][--yHero] = 'H';
-                    this.map[xHero][yHero] = 'H';
+                    this.map[xHero][--yHero] = 'H';
                     this.map[xHero][yHero + 1] = '*';
                     printMaps();
                     toReturn = "CONTINUE";
@@ -264,6 +239,7 @@ public class Maps {
         this.hero.setLevel( ++level );
     }
 
+    // TODO sex with above
     public void levelUP() {
         System.out.println( "You have achieved new level!" );
         this.hero.setLevel( ++this.level );
@@ -274,16 +250,20 @@ public class Maps {
     }
 
     public String moveGui( String direction ) {
-        String move;
-        move = this.navigationGui( direction );
+        String move = this.navigationGui( direction );
         refreshData();
         return move;
     }
 
+    // TODO sex
     public String move( String direction ) {
-        String move;
-        move = this.navigation( direction );
+        String move = this.navigation( direction );
         refreshData();
         return move;
+    }
+
+    public enum View {
+        GUI,
+        CONSOLE
     }
 }

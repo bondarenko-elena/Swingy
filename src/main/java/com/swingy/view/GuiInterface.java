@@ -1,9 +1,9 @@
 package com.swingy.view;
 
-import com.swingy.model.utils.Hero;
-import com.swingy.model.map.Maps;
 import com.swingy.controller.Controller;
 import com.swingy.database.DBMethods;
+import com.swingy.model.map.Maps;
+import com.swingy.model.utils.Hero;
 
 import javax.swing.*;
 import java.awt.*;
@@ -305,7 +305,7 @@ public class GuiInterface extends JPanel implements Display {
         this.add( new JLabel( "N - north, S - south, E - east, W - west." ), gbc );
         this.add( new JLabel( "Choose direction:" ), gbc );
 
-        map = new Maps( hero, "gui" );
+        map = new Maps( hero, Maps.View.GUI );
         list = new JList( map.getData() );
         setScroll();
         this.add( northButton );

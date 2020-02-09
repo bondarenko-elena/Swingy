@@ -85,7 +85,6 @@ public class DBMethods {
     }
 
     public void selectAll() {
-
         DBConnect dbCon = new DBConnect();
         String sql = "SELECT * FROM heroes";
         try (
@@ -110,7 +109,6 @@ public class DBMethods {
     }
 
     public String[] selectAllGui() {
-
         DBConnect dbCon = new DBConnect();
         String sql = "SELECT * FROM heroes";
         ArrayList<String> list = new ArrayList<>();
@@ -120,7 +118,7 @@ public class DBMethods {
             Connection conn = dbCon.connect();
             Statement stmt = conn.createStatement();
             rs = stmt.executeQuery( sql );
-            for ( int i = 1; rs.next(); i++ ) {
+            while ( rs.next() ) {
                 list.add( String.format(
                         "Id:%d %s (%s) lvl %d exp %d hp %d attack %d def %d",
                         rs.getInt( "heroID" ),
@@ -142,38 +140,33 @@ public class DBMethods {
     }
 
     public int selectCountSavedHeroes() {
-
-        int toReturn = 0;
-
         DBConnect dbCon = new DBConnect();
-        String sql = "SELECT max(heroID) as countHeroID FROM heroes";
+        String sql = "SELECT count(heroID) as countHeroID FROM heroes";
         try (
                 Connection conn = dbCon.connect();
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery( sql )
         ) {
-
-            while ( rs.next() ) {
-                toReturn = rs.getInt( "countHeroID" );
-            }
+            return rs.getInt( "countHeroID" );
         } catch ( SQLException ex ) {
             System.out.println( ex.getMessage() + "selection error" );
             System.exit( 0 );
         }
-        return toReturn;
+        return 0;
     }
 
     public String[] selectHeroGui( String heroName ) {
         DBConnect dbCon = new DBConnect();
-        String sql = "SELECT * FROM heroes WHERE heroName = '" + heroName + "'";
+        String sql = "SELECT * FROM heroes WHERE heroName = ?";
         ArrayList<String> list = new ArrayList<>();
         String[] listArr = new String[list.size()];
         ResultSet rs;
         try {
             Connection conn = dbCon.connect();
-            Statement stmt = conn.createStatement();
-            rs = stmt.executeQuery( sql );
-            for ( int i = 1; rs.next(); i++ ) {
+            PreparedStatement stmt = conn.prepareStatement( sql );
+            stmt.setString( 1, heroName );
+            rs = stmt.executeQuery();
+            while ( rs.next() ) {
                 list.add( String.format(
                         "Id:%d %s (%s) lvl %d exp %d hp %d attack %d def %d",
                         rs.getInt( "heroID" ),
@@ -190,13 +183,12 @@ public class DBMethods {
             listArr = list.toArray( listArr );
         } catch ( SQLException ex ) {
             System.out.println( ex.getMessage() + "selection error" );
-            	System.exit(0);
+            System.exit( 0 );
         }
         return listArr;
     }
 
     public void selectHero( String heroName ) {
-
         DBConnect dbCon = new DBConnect();
         String sql = "SELECT * FROM heroes WHERE heroName = '" + heroName + "'";
         try (
@@ -205,6 +197,7 @@ public class DBMethods {
                 ResultSet rs = stmt.executeQuery( sql )
         ) {
             while ( rs.next() ) {
+                // TODO move this to toString method of Hero
                 System.out.println( "\nID: " + rs.getInt( "heroID" ) +
                                             "\nName: " + rs.getString( "heroName" ) +
                                             "\nClass: " + rs.getString( "heroClass" ) +
@@ -216,12 +209,11 @@ public class DBMethods {
             }
         } catch ( SQLException ex ) {
             System.out.println( ex.getMessage() + "\nError: Hero Does not exist" );
-            	System.exit(0);
+            System.exit( 0 );
         }
     }
 
     public Hero getHerodb( int id ) {
-
         int heroLvl, heroExp, heroHP, heroAtk, heroDef;
         String heroName, heroClass;
         HeroCreator heroCreator;
@@ -236,6 +228,7 @@ public class DBMethods {
                 ResultSet rs = stmt.executeQuery( sql );
         ) {
             while ( rs.next() ) {
+                // TODO (optionally) inline variables
                 heroName = rs.getString( "heroName" );
                 heroClass = rs.getString( "heroClass" );
                 heroLvl = rs.getInt( "heroLevel" );
@@ -244,12 +237,16 @@ public class DBMethods {
                 heroAtk = rs.getInt( "heroAtk" );
                 heroDef = rs.getInt( "heroDef" );
                 int heroClassFactory = 0;
-                if ( heroClass.toLowerCase().equals( "witcher" ) ) {
-                    heroClassFactory = 1;
-                } else if ( heroClass.toLowerCase().equals( "fighter" ) ) {
-                    heroClassFactory = 2;
-                } else if ( heroClass.toLowerCase().equals( "mage" ) ) {
-                    heroClassFactory = 3;
+                switch ( heroClass.toLowerCase() ) {
+                    case "witcher":
+                        heroClassFactory = 1;
+                        break;
+                    case "fighter":
+                        heroClassFactory = 2;
+                        break;
+                    case "mage":
+                        heroClassFactory = 3;
+                        break;
                 }
                 heroCreator = HeroFactory.newHero( heroClassFactory, heroName );
 

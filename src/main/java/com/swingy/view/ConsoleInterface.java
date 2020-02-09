@@ -115,14 +115,17 @@ public class ConsoleInterface implements Display {
             if ( optionChoice == 1 ) {
                 System.out.println( "Here is a list of saved heroes. Choose a hero by id." );
                 dbData.selectAll();
-                while ( heroChoice < 1 || heroChoice > dbData.selectCountSavedHeroes() ) {
+                int heroCount = dbData.selectCountSavedHeroes();
+                String exceptionMessage = "There is no hero with this ID. Choose a hero from the list above.";
+                while ( heroChoice < 1 || heroChoice > heroCount ) {
                     try {
                         heroChoice = Integer.parseInt( br.readLine() );
-                        if (heroChoice > 1 && heroChoice < dbData.selectCountSavedHeroes()) {
+                        if ( heroChoice > 1 && heroChoice < heroCount ) {
                             break;
                         }
+                        System.out.println( exceptionMessage );
                     } catch ( NumberFormatException e ) {
-                        System.out.println( "There is no hero with this ID. Choose a hero from the list above." );
+                        System.out.println( exceptionMessage );
                     }
                 }
                 hero = dbData.getHerodb( heroChoice );
@@ -201,7 +204,7 @@ public class ConsoleInterface implements Display {
         if ( heroToRun != null ) {
             System.out.println( "---WELCOME TO THE GAME---" );
             System.out.println( "Here is your map." );
-            Maps map = new Maps( this.hero );
+            Maps map = new Maps( this.hero, Maps.View.CONSOLE );
             while ( true ) {
                 try {
                     System.out.println(
