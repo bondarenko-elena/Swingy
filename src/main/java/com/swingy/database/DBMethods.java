@@ -1,7 +1,6 @@
 package com.swingy.database;
 
 import com.swingy.model.utils.Hero;
-import com.swingy.model.utils.HeroCreator;
 import com.swingy.model.utils.HeroFactory;
 
 import java.sql.*;
@@ -216,7 +215,6 @@ public class DBMethods {
     public Hero getHerodb( int id ) {
         int heroLvl, heroExp, heroHP, heroAtk, heroDef;
         String heroName, heroClass;
-        HeroCreator heroCreator;
         Hero hero = null;
 
         DBConnect dbcon = new DBConnect();
@@ -248,9 +246,8 @@ public class DBMethods {
                         heroClassFactory = 3;
                         break;
                 }
-                heroCreator = HeroFactory.newHero( heroClassFactory, heroName );
 
-                hero = heroCreator.getHero();
+                hero = HeroFactory.newHero( heroClassFactory, heroName );
                 hero.setLevel( heroLvl );
                 hero.setExperience( heroExp );
                 hero.setHitPoints( heroHP );

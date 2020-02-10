@@ -3,7 +3,6 @@ package com.swingy.view;
 import com.swingy.database.DBMethods;
 import com.swingy.model.map.Maps;
 import com.swingy.model.utils.Hero;
-import com.swingy.model.utils.HeroCreator;
 import com.swingy.model.utils.HeroFactory;
 
 import java.io.BufferedReader;
@@ -33,9 +32,9 @@ public class ConsoleInterface implements Display {
 
     private void addHeroToDB( Hero hero, DBMethods dbData ) {
         dbData.addHero(
-                hero.getHeroName(),
+                hero.getName(),
                 hero.getHeroClass(),
-                hero.getHeroLevel(),
+                hero.getLevel(),
                 hero.getExperience(),
                 hero.getHitPoints(),
                 hero.getAttack(),
@@ -47,7 +46,6 @@ public class ConsoleInterface implements Display {
     public void displayHeroCreate() {
         int heroClass = 0;
         String heroName = null;
-        HeroCreator heroCreator;
         DBMethods dbData = new DBMethods();
         BufferedReader br = null;
 
@@ -72,9 +70,7 @@ public class ConsoleInterface implements Display {
             }
             System.exit( 1 );
         } finally {
-            heroCreator = HeroFactory.newHero( heroClass, heroName );
-            assert heroCreator != null;
-            hero = heroCreator.getHero();
+            hero = HeroFactory.newHero( heroClass, heroName );
             addHeroToDB( hero, dbData );
             System.out.println( "Hero created successfully" );
         }
@@ -83,9 +79,9 @@ public class ConsoleInterface implements Display {
     @Override
     public void displayStatistics( Hero hero ) {
         System.out.println( "Statistics:" );
-        System.out.println( "Name -> " + hero.getHeroName() );
+        System.out.println( "Name -> " + hero.getName() );
         System.out.println( "Class -> " + hero.getHeroClass() );
-        System.out.println( "Level -> " + hero.getHeroLevel() );
+        System.out.println( "Level -> " + hero.getLevel() );
         System.out.println( "Experience -> " + hero.getExperience() );
         System.out.println( "Attack -> " + hero.getAttack() );
         System.out.println( "Defense -> " + hero.getDefense() );
@@ -130,12 +126,12 @@ public class ConsoleInterface implements Display {
                 }
                 hero = dbData.getHerodb( heroChoice );
                 System.out.println( "Here is choosen hero." );
-                dbData.selectHero( hero.getHeroName() );
+                dbData.selectHero( hero.getName() );
                 return hero;
             } else if ( optionChoice == 2 ) {
                 displayHeroCreate();
                 System.out.println( "Here is choosen hero." );
-                dbData.selectHero( hero.getHeroName() );
+                dbData.selectHero( hero.getName() );
                 return hero;
             } else if ( optionChoice == 3 ) {
                 System.out.println("Gui view is opened");
@@ -277,10 +273,7 @@ public class ConsoleInterface implements Display {
         String[] enemies = new String[]{ "Serpent", "Goblin" };
         int heroClass = (int) ( Math.random() * 2 + 4 );
         String enemyName = enemies[ThreadLocalRandom.current().nextInt( enemies.length )];
-        HeroCreator heroCreator = HeroFactory.newHero( heroClass, enemyName );
-        assert heroCreator != null;
-        heroCreator.createHero();
-        Hero enemy = heroCreator.getHero();
+        Hero enemy = HeroFactory.newHero( heroClass, enemyName );
         System.out.println( "This guy is your enemy:" );
         displayStatistics( enemy );
         return enemy;
@@ -314,6 +307,7 @@ public class ConsoleInterface implements Display {
     }
 
     private void attack( Hero enemy ) {
+        // TODO information is duplicated
         displayHP( enemy );
         if ( ThreadLocalRandom.current().nextInt( 0, 10 ) >= 4 ) {
             enemyAttacked( enemy );

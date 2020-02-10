@@ -9,34 +9,20 @@ import org.jetbrains.annotations.Nullable;
 
 public class HeroFactory {
 
-    public static HeroCreator newHero( int heroClass, @Nullable String heroName ) {
-        HeroCreator toReturn;
+    public static Hero newHero( int heroClass, @Nullable String heroName ) {
         switch ( heroClass ) {
-            case 1: {
-                toReturn = new HeroCreator( new Witcher( heroName ) );
-                break;
-            }
-            case 2: {
-                toReturn = new HeroCreator( new Fighter( heroName ) );
-                break;
-            }
-            case 3: {
-                toReturn = new HeroCreator( new Mage( heroName ) );
-                break;
-            }
-            case 4: {
-                toReturn = new HeroCreator( new Serpent() );
-                break;
-            }
-            case 5: {
-                toReturn = new HeroCreator( new Goblin() );
-                break;
-            }
-            default: {
+            case 1:
+                return new Witcher( heroName );
+            case 2:
+                return new Fighter( heroName );
+            case 3:
+                return new Mage( heroName );
+            case 4:
+                return new Serpent();
+            case 5:
+                return new Goblin();
+            default:
                 throw new IllegalStateException( "Unexpected value: " + heroClass );
-            }
         }
-        toReturn.createHero();
-        return toReturn;
     }
 }

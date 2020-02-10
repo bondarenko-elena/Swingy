@@ -4,7 +4,6 @@ import com.swingy.Main;
 import com.swingy.database.DBMethods;
 import com.swingy.model.map.Maps;
 import com.swingy.model.utils.Hero;
-import com.swingy.model.utils.HeroCreator;
 import com.swingy.model.utils.HeroFactory;
 import com.swingy.view.GuiInterface;
 
@@ -25,9 +24,7 @@ public class Controller {
 
     private Hero createEnemy() {
         int heroClass = (int) ( Math.random() * 2 + 4 );
-        HeroCreator heroCreator = HeroFactory.newHero( heroClass, null );
-        heroCreator.createHero();
-        Hero enemy = heroCreator.getHero();
+        Hero enemy = HeroFactory.newHero( heroClass, null );
 //        System.out.println( "This guy is your enemy." );
 //        displayStatistics( enemy );
         return enemy;
@@ -145,7 +142,7 @@ public class Controller {
     public void onHeroSelectSaveButtonPressed( Hero hero ) {
         this.hero = hero;
         GuiInterface gui = new GuiInterface();
-        gui.displayHeroSelected( hero.getHeroName() );
+        gui.displayHeroSelected( hero.getName() );
     }
 
     public void onHeroSelectButtonPressed() {
@@ -163,16 +160,15 @@ public class Controller {
             JTextField heroName,
             DBMethods dbData
     ) {
-        HeroCreator heroCreator = HeroFactory.newHero(
+        Main.hero = HeroFactory.newHero(
                 // TODO add conditions
                 Integer.parseInt( heroClass.getText() ),
                 heroName.getText()
         );
-        Main.hero = heroCreator.getHero();
         dbData.addHero(
-                Main.hero.getHeroName(),
+                Main.hero.getName(),
                 Main.hero.getHeroClass(),
-                Main.hero.getHeroLevel(),
+                Main.hero.getLevel(),
                 Main.hero.getExperience(),
                 Main.hero.getHitPoints(),
                 Main.hero.getAttack(),

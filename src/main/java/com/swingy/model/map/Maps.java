@@ -48,7 +48,7 @@ public class Maps {
     }
 
     private void setMap( @NotNull Hero hero ) {
-        level = hero.getHeroLevel();
+        level = hero.getLevel();
         mapSize = ( ( level - 1 ) * 5 + 10 - ( level % 2 ) );
         xHero = mapSize / 2;
         yHero = mapSize / 2;
