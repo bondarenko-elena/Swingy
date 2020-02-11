@@ -23,7 +23,7 @@ public class Maps {
         if ( view == View.GUI ) {
             refreshData();
         } else {
-            printMaps();
+            printMaps( View.CONSOLE );
         }
     }
 
@@ -44,7 +44,7 @@ public class Maps {
     }
 
     private boolean checkEdge() {
-        return ( xHero == 0 || yHero == 0 || xHero == mapSize - 1 || yHero == mapSize - 1 );
+        return ( xHero == 1 || yHero == 1 || xHero == mapSize - 2 || yHero == mapSize - 2 );
     }
 
     private void setMap( @NotNull Hero hero ) {
@@ -61,14 +61,16 @@ public class Maps {
         this.map[xHero][yHero] = 'H';
     }
 
-    // TODO pass View var to print if needed
-    private void printMaps() {
+    private void printMaps( View view ) {
+        StringBuilder str = new StringBuilder();
         for ( int i = 0; i < mapSize; i++ ) {
             for ( int k = 0; k < mapSize; k++ ) {
-                // TODO write to StringBuilder and print once
-                System.out.print( " " + this.map[i][k] + " " );
+                str.append( " " ).append( this.map[i][k] );
             }
-            System.out.print( "\n" );
+            str.append( "\n" );
+        }
+        if ( view == View.CONSOLE ) {
+            System.out.println( str );
         }
     }
 
@@ -102,8 +104,7 @@ public class Maps {
         enemyCoordinates( this );
     }
 
-    //TODO make sex with navigationConsole
-    private String navigationGui( @NotNull String direction ) {
+    private String navigation( @NotNull String direction, View view ) {
         if ( checkEdge() ) {
             return "END";
         } else {
@@ -117,6 +118,7 @@ public class Maps {
                     }
                     this.map[--xHero][yHero] = 'H';
                     this.map[xHero + 1][yHero] = '*';
+                    printMaps( view );
                     return "CONTINUE";
                 case "s":
                     if ( checkEdge() ) {
@@ -127,6 +129,7 @@ public class Maps {
                     }
                     this.map[++xHero][yHero] = 'H';
                     this.map[xHero - 1][yHero] = '*';
+                    printMaps( view );
                     return "CONTINUE";
                 case "e":
                     if ( checkEdge() ) {
@@ -137,6 +140,7 @@ public class Maps {
                     }
                     this.map[xHero][++yHero] = 'H';
                     this.map[xHero][yHero - 1] = '*';
+                    printMaps( view );
                     return "CONTINUE";
                 case "w":
                     if ( checkEdge() ) {
@@ -147,6 +151,7 @@ public class Maps {
                     }
                     this.map[xHero][--yHero] = 'H';
                     this.map[xHero][yHero + 1] = '*';
+                    printMaps( view );
                     return "CONTINUE";
                 default:
                     System.out.println( "Invalid navigation." );
@@ -156,109 +161,33 @@ public class Maps {
         }
     }
 
-    private String navigation( @NotNull String direction ) {
-        // TODO same as above (inline)
-        String toReturn = null;
-        while ( true ) {
-            if ( checkEdge() ) {
-                toReturn = "END";
-                return toReturn;
-            } else {
-                if ( direction.toLowerCase().equals( "n" ) ) {
-                    if ( checkEdge() ) {
-                        toReturn = "END";
-                        return toReturn;
-                    }
-                    if ( meetEnemy( direction ) ) {
-                        toReturn = "FIGHT";
-                        return toReturn;
-                    }
-                    this.map[--xHero][yHero] = 'H';
-                    this.map[xHero + 1][yHero] = '*';
-                    printMaps();
-                    toReturn = "CONTINUE";
-                    return toReturn;
-                } else if ( direction.toLowerCase().equals( "s" ) ) {
-                    if ( checkEdge() ) {
-                        toReturn = "END";
-                        return toReturn;
-                    }
-                    if ( meetEnemy( direction ) ) {
-                        toReturn = "FIGHT";
-                        return toReturn;
-                    }
-                    this.map[++xHero][yHero] = 'H';
-                    this.map[xHero - 1][yHero] = '*';
-                    printMaps();
-                    toReturn = "CONTINUE";
-                    return toReturn;
-                } else if ( direction.toLowerCase().equals( "e" ) ) {
-                    if ( checkEdge() ) {
-                        toReturn = "END";
-                        return toReturn;
-                    }
-                    if ( meetEnemy( direction ) ) {
-                        toReturn = "FIGHT";
-                        return toReturn;
-                    }
-//                    this.map[xHero][yHero + 1] = 'H';
-                    this.map[xHero][++yHero] = 'H';
-                    this.map[xHero][yHero - 1] = '*';
-                    printMaps();
-                    toReturn = "CONTINUE";
-                    return toReturn;
-                } else if ( direction.toLowerCase().equals( "w" ) ) {
-                    if ( checkEdge() ) {
-                        toReturn = "END";
-                        return toReturn;
-                    }
-                    if ( meetEnemy( direction ) ) {
-                        toReturn = "FIGHT";
-                        return toReturn;
-                    }
-//                    this.map[xHero][--yHero] = 'H';
-                    this.map[xHero][--yHero] = 'H';
-                    this.map[xHero][yHero + 1] = '*';
-                    printMaps();
-                    toReturn = "CONTINUE";
-                    return toReturn;
-                } else {
-                    System.out.println( "Invalid navigation." );
-                    System.exit( 1 );
-                }
-            }
-            return toReturn;
-        }
-    }
-
-    public void levelUPGui() {
-        this.hero.setLevel( ++this.level );
-        this.setMap( this.hero );
-        setEnemy();
-        refreshData();
-        this.hero.setLevel( ++level );
-    }
-
-    // TODO sex with above
-    public void levelUP() {
+    public void levelUP( View view ) {
         System.out.println( "You have achieved new level!" );
         this.hero.setLevel( ++this.level );
         this.setMap( this.hero );
         setEnemy();
-        printMaps();
+        if ( view == View.CONSOLE ) {
+            printMaps( View.CONSOLE );
+        }
+        if ( view == View.GUI ) {
+            refreshData();
+        }
         this.hero.setLevel( ++level );
     }
 
-    public String moveGui( String direction ) {
-        String move = this.navigationGui( direction );
-        refreshData();
-        return move;
-    }
-
-    // TODO sex
-    public String move( String direction ) {
-        String move = this.navigation( direction );
-        refreshData();
+    public String move( String direction, View view ) {
+        String move = this.navigation( direction, view );
+        if ( move.equalsIgnoreCase( "end" ) ) {
+            System.out.println(
+                    "You reached on of the borders of the map and win. Game completed. GG WP" );
+            System.exit( 0 );
+        }
+        if ( view == View.CONSOLE ) {
+            printMaps( View.CONSOLE );
+        }
+        if ( view == View.GUI ) {
+            refreshData();
+        }
         return move;
     }
 

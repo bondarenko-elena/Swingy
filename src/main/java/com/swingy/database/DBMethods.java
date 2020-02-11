@@ -61,7 +61,6 @@ public class DBMethods {
             int heroDef,
             int heroHP
     ) {
-
         DBConnect dbCon = new DBConnect();
         String sql = "INSERT INTO heroes (heroName, heroClass, heroLevel, heroExp, heroHP, heroAtk, heroDef) VALUES (?,?,?,?,?,?,?)";
         try (
@@ -78,6 +77,7 @@ public class DBMethods {
             pstmt.execute();
             System.out.println( "\nNew hero added to database" );
         } catch ( SQLException ex ) {
+            //TODO is this correct behaviour?
             System.out.println( "\nError: Hero name '" + heroName + "' already in use" );
             System.exit( 0 );
         }
@@ -187,34 +187,7 @@ public class DBMethods {
         return listArr;
     }
 
-    public void selectHero( String heroName ) {
-        DBConnect dbCon = new DBConnect();
-        String sql = "SELECT * FROM heroes WHERE heroName = '" + heroName + "'";
-        try (
-                Connection conn = dbCon.connect();
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery( sql )
-        ) {
-            while ( rs.next() ) {
-                // TODO move this to toString method of Hero
-                System.out.println( "\nID: " + rs.getInt( "heroID" ) +
-                                            "\nName: " + rs.getString( "heroName" ) +
-                                            "\nClass: " + rs.getString( "heroClass" ) +
-                                            "\nLevel: " + rs.getInt( "heroLevel" ) +
-                                            "\nExperience: " + rs.getInt( "heroExp" ) +
-                                            "\nHit Points: " + rs.getInt( "heroHP" ) +
-                                            "\nAttack: " + rs.getInt( "HeroAtk" ) +
-                                            "\nDefense: " + rs.getInt( "HeroDef" ) );
-            }
-        } catch ( SQLException ex ) {
-            System.out.println( ex.getMessage() + "\nError: Hero Does not exist" );
-            System.exit( 0 );
-        }
-    }
-
     public Hero getHerodb( int id ) {
-        int heroLvl, heroExp, heroHP, heroAtk, heroDef;
-        String heroName, heroClass;
         Hero hero = null;
 
         DBConnect dbcon = new DBConnect();
@@ -226,16 +199,8 @@ public class DBMethods {
                 ResultSet rs = stmt.executeQuery( sql );
         ) {
             while ( rs.next() ) {
-                // TODO (optionally) inline variables
-                heroName = rs.getString( "heroName" );
-                heroClass = rs.getString( "heroClass" );
-                heroLvl = rs.getInt( "heroLevel" );
-                heroExp = rs.getInt( "heroExp" );
-                heroHP = rs.getInt( "heroHP" );
-                heroAtk = rs.getInt( "heroAtk" );
-                heroDef = rs.getInt( "heroDef" );
                 int heroClassFactory = 0;
-                switch ( heroClass.toLowerCase() ) {
+                switch ( rs.getString( "heroClass" ).toLowerCase() ) {
                     case "witcher":
                         heroClassFactory = 1;
                         break;
@@ -246,65 +211,17 @@ public class DBMethods {
                         heroClassFactory = 3;
                         break;
                 }
-
-                hero = HeroFactory.newHero( heroClassFactory, heroName );
-                hero.setLevel( heroLvl );
-                hero.setExperience( heroExp );
-                hero.setHitPoints( heroHP );
-                hero.setAttack( heroAtk );
-                hero.setDefense( heroDef );
+                hero = HeroFactory.newHero( heroClassFactory, rs.getString( "heroName" ) );
+                hero.setLevel( rs.getInt( "heroLevel" ) );
+                hero.setExperience( rs.getInt( "heroExp" ) );
+                hero.setHitPoints( rs.getInt( "heroHP" ) );
+                hero.setAttack( rs.getInt( "heroAtk" ) );
+                hero.setDefense( rs.getInt( "heroDef" ) );
             }
             return hero;
         } catch ( SQLException ex ) {
             System.out.println( ex.getMessage() );
         }
         return null;
-    }
-
-    public void updateHero(
-            String heroName,
-            int heroLvl,
-            int heroExp,
-            int heroHP,
-            int heroAtk,
-            int heroDef
-    ) {
-        DBConnect dbCon = new DBConnect();
-        String sql = "UPDATE heroes SET heroLevel = ?," +
-                "heroExp = ?," +
-                "heroHP = ?," +
-                "HeroAtk = ?," +
-                "heroDef = ?" +
-                "WHERE heroName = ?";
-        try (
-                Connection conn = dbCon.connect();
-                PreparedStatement pstmt = conn.prepareStatement( sql );
-        ) {
-            //set Parameters
-            pstmt.setInt( 1, heroLvl );
-            pstmt.setInt( 2, heroExp );
-            pstmt.setInt( 3, heroHP );
-            pstmt.setInt( 4, heroAtk );
-            pstmt.setInt( 5, heroDef );
-            pstmt.setString( 6, heroName );
-            //update Hero stats
-            pstmt.executeUpdate();
-        } catch ( SQLException ex ) {
-            System.out.println( ex.getMessage() );
-        }
-    }
-
-    public void deleteHero( String heroName ) {
-        DBConnect dbCon = new DBConnect();
-        String sql = "DELETE * FROM heroes WHERE heroName = ?";
-        try (
-                Connection conn = dbCon.connect();
-                PreparedStatement pstmt = conn.prepareStatement( sql );
-        ) {
-            pstmt.setString( 1, heroName );
-            pstmt.executeUpdate();
-        } catch ( SQLException ex ) {
-            System.out.println( "Error: cannot delete hero" );
-        }
     }
 }

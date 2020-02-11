@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+//TODO check conditions and sout
 public class Controller {
     private Hero hero;
     private static Controller instance;
@@ -70,7 +71,7 @@ public class Controller {
     public void onFightYesButtonButtonPressed( Maps map ) {
         if ( clashOfHeroes() == 1 ) {
             GuiInterface gui = new GuiInterface();
-            map.levelUPGui();
+            map.levelUP( Maps.View.GUI );
             gui.continueGameLevelUp( map );
         } else {
             GuiInterface gui = new GuiInterface();
@@ -84,7 +85,7 @@ public class Controller {
 //            System.out.println( "Sorry, the odds aren’t on your side, you must fight the villain." );
             GuiInterface gui = new GuiInterface();
             if ( clashOfHeroes() == 1 ) {
-                map.levelUPGui();
+                map.levelUP( Maps.View.GUI );
                 gui.continueGameLevelUp( map );
             } else {
                 gui.endGame( "Fight is over. You lost. GG WP" );
@@ -93,29 +94,29 @@ public class Controller {
     }
 
     public void onNorthButtonPressed( Maps map ) {
-        String move = map.moveGui( "n" );
+        String move = map.move( "n", Maps.View.GUI );
         doMove( map, move );
     }
 
     public void onSouthButtonPressed( Maps map ) {
-        String move = map.moveGui( "s" );
+        String move = map.move( "s", Maps.View.GUI );
         doMove( map, move );
     }
 
     public void onWestButtonPressed( Maps map ) {
-        String move = map.moveGui( "w" );
+        String move = map.move( "w", Maps.View.GUI );
         doMove( map, move );
     }
 
     public void onEastButtonPressed( Maps map ) {
-        String move = map.moveGui( "e" );
+        String move = map.move( "e", Maps.View.GUI );
         doMove( map, move );
     }
 
     private void doMove( Maps map, String move ) {
         GuiInterface gui = new GuiInterface();
         if ( move.equalsIgnoreCase( "end" ) ) {
-            gui.endGame( "Game Over" );
+            gui.endGame( "You reached on of the borders of the map and win. Game completed. GG WP" );
         }
         if ( move.equalsIgnoreCase( "fight" ) ) {
             gui.fight( map );
@@ -132,7 +133,7 @@ public class Controller {
 
     public void onHeroCreateButtonPressed() {
         GuiInterface gui = new GuiInterface();
-        gui.displayHeroCreate();
+        gui.displayHeroCreate( 0 );
     }
 
     public void onSwitchViewButtonPressed() {
@@ -155,24 +156,38 @@ public class Controller {
         gui.startGame( hero );
     }
 
+    private boolean validateFields( String heroClass, String heroName ) {
+        if ( ( !( ( heroClass.equalsIgnoreCase( "1" ) || heroClass.equalsIgnoreCase( "2" ) || heroClass
+                .equalsIgnoreCase( "" ) ) ) ) || ( heroName.length() < 3 || heroName.length() > 10 ) ) {
+            return false;
+        }
+        return true;
+    }
+
     public void onHeroSaveButtonPressed(
             JTextField heroClass,
             JTextField heroName,
             DBMethods dbData
     ) {
-        Main.hero = HeroFactory.newHero(
-                // TODO add conditions
-                Integer.parseInt( heroClass.getText() ),
-                heroName.getText()
-        );
-        dbData.addHero(
-                Main.hero.getName(),
-                Main.hero.getHeroClass(),
-                Main.hero.getLevel(),
-                Main.hero.getExperience(),
-                Main.hero.getHitPoints(),
-                Main.hero.getAttack(),
-                Main.hero.getDefense()
-        );
+        if ( validateFields( heroClass.getText(), heroName.getText() ) == false ) {
+            GuiInterface gui = new GuiInterface();
+            gui.displayHeroCreate( 1 );
+        } else {
+            Main.hero = HeroFactory.newHero(
+                    Integer.parseInt( heroClass.getText() ),
+                    heroName.getText()
+            );
+            dbData.addHero(
+                    Main.hero.getName(),
+                    Main.hero.getHeroClass(),
+                    Main.hero.getLevel(),
+                    Main.hero.getExperience(),
+                    Main.hero.getHitPoints(),
+                    Main.hero.getAttack(),
+                    Main.hero.getDefense()
+            );
+            GuiInterface gui = new GuiInterface();
+            hero = gui.displayHeroSelect();
+        }
     }
 }

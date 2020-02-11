@@ -43,7 +43,7 @@ public class ConsoleInterface implements Display {
     }
 
     @Override
-    public void displayHeroCreate() {
+    public void displayHeroCreate( int tumbler ) {
         int heroClass = 0;
         String heroName = null;
         DBMethods dbData = new DBMethods();
@@ -113,28 +113,29 @@ public class ConsoleInterface implements Display {
                 dbData.selectAll();
                 int heroCount = dbData.selectCountSavedHeroes();
                 String exceptionMessage = "There is no hero with this ID. Choose a hero from the list above.";
+                //TODO add conditions
                 while ( heroChoice < 1 || heroChoice > heroCount ) {
                     try {
                         heroChoice = Integer.parseInt( br.readLine() );
-                        if ( heroChoice > 1 && heroChoice < heroCount ) {
+                        if ( heroChoice > 0 && heroChoice < heroCount ) {
                             break;
                         }
                         System.out.println( exceptionMessage );
-                    } catch ( NumberFormatException e ) {
-                        System.out.println( exceptionMessage );
+                    } catch ( NumberFormatException ex ) {
+                        ex.printStackTrace();
                     }
                 }
                 hero = dbData.getHerodb( heroChoice );
                 System.out.println( "Here is choosen hero." );
-                dbData.selectHero( hero.getName() );
+                System.out.println( hero.toString() );
                 return hero;
             } else if ( optionChoice == 2 ) {
-                displayHeroCreate();
+                displayHeroCreate( 0 );
                 System.out.println( "Here is choosen hero." );
-                dbData.selectHero( hero.getName() );
+                System.out.println( hero.toString() );
                 return hero;
             } else if ( optionChoice == 3 ) {
-                System.out.println("Gui view is opened");
+                System.out.println( "Gui view is opened" );
                 GuiInterface gui = new GuiInterface();
                 gui.runGame();
                 return null;
@@ -212,7 +213,7 @@ public class ConsoleInterface implements Display {
                                 "Use N, S, E or W for direction. Choose direction: " );
                         readMove = br.readLine();
                     }
-                    move = map.move( readMove );
+                    move = map.move( readMove, Maps.View.CONSOLE );
                     if ( move.equalsIgnoreCase( "end" ) ) {
                         System.out.println( "You finished the game. GG WP." );
                         break;
@@ -230,7 +231,7 @@ public class ConsoleInterface implements Display {
                             toReturn = clashOfHeroes();
                             if ( toReturn == 1 ) {
                                 System.out.println( "Fight is over. You won." );
-                                map.levelUP();
+                                map.levelUP( Maps.View.CONSOLE );
                             } else {
                                 System.out.println( "Fight is over. You lost. GG WP" );
                                 System.exit( 0 );
@@ -244,7 +245,7 @@ public class ConsoleInterface implements Display {
                                 toReturn = clashOfHeroes();
                                 if ( toReturn == 1 ) {
                                     System.out.println( "Fight is over. You won." );
-                                    map.levelUP();
+                                    map.levelUP( Maps.View.CONSOLE );
                                 } else {
                                     System.out.println( "Fight is over. You lost. GG WP" );
                                     System.exit( 0 );
@@ -279,7 +280,12 @@ public class ConsoleInterface implements Display {
         return enemy;
     }
 
-    private void displayHP( Hero enemy ) {
+    private void displayHP( Hero enemy, int tumbler ) {
+        if ( tumbler == 0 ) {
+            System.out.println( "HP before attack" );
+        } else {
+            System.out.println( "HP after attack" );
+        }
         System.out.println( "Hero HP -> " + this.hero.getHitPoints() );
         System.out.println( "Enemy HP -> " + enemy.getHitPoints() );
     }
@@ -306,14 +312,14 @@ public class ConsoleInterface implements Display {
         }
     }
 
+    //TODO check attack statistic
     private void attack( Hero enemy ) {
-        // TODO information is duplicated
-        displayHP( enemy );
+        displayHP( enemy, 0 );
         if ( ThreadLocalRandom.current().nextInt( 0, 10 ) >= 4 ) {
             enemyAttacked( enemy );
         } else {
             heroAttacked( enemy );
         }
-        displayHP( enemy );
+        displayHP( enemy, 1 );
     }
 }

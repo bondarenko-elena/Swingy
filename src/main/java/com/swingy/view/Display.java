@@ -5,7 +5,7 @@ import com.swingy.model.utils.Hero;
 public interface Display {
     void runGame();
 
-    void displayHeroCreate();
+    void displayHeroCreate( int tumbler );
 
     void displayStatistics( Hero hero );
 

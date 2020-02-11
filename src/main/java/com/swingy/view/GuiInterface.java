@@ -121,13 +121,16 @@ public class GuiInterface extends JPanel implements Display {
         }
     }
 
-    public void displayHeroCreate() {
+    public void displayHeroCreate( int tumbler ) {
         GridBagConstraints gbc = setStyle( "Create hero" );
 
         heroName = new JTextField( 8 );
         heroClass = new JTextField( 8 );
 
-        this.add( new JLabel( "Enter hero's name:" ), gbc );
+        if ( tumbler == 1 ) {
+            this.add( new JLabel( "Invalid name or class. Try again." ), gbc );
+        }
+        this.add( new JLabel( "Enter hero's name (should be 3 chars min and 10 chars max) :" ), gbc );
         this.add( heroName, gbc );
         this.add( new JLabel( "Class       Attack      Defense     HP" ), gbc );
         this.add( new JLabel( "1. Witcher     150     120     250" ), gbc );

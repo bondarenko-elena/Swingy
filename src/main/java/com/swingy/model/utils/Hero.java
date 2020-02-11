@@ -36,4 +36,16 @@ public class Hero {
     @Size( min = 50, max = 2000, message = "Max HP" )
     private int hitPoints;
 
+    @Override
+    public String toString() {
+        return "Hero{" +
+                "name='" + name + '\'' +
+                ", heroClass='" + heroClass + '\'' +
+                ", level=" + level +
+                ", experience=" + experience +
+                ", attack=" + attack +
+                ", defense=" + defense +
+                ", hitPoints=" + hitPoints +
+                '}';
+    }
 }
