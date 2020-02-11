@@ -63,13 +63,14 @@ public class Maps {
 
     // TODO pass View var to print if needed
     private void printMaps() {
+        StringBuilder str = new StringBuilder();
         for ( int i = 0; i < mapSize; i++ ) {
             for ( int k = 0; k < mapSize; k++ ) {
-                // TODO write to StringBuilder and print once
-                System.out.print( " " + this.map[i][k] + " " );
+                str.append( " " ).append( this.map[i][k] );
             }
-            System.out.print( "\n" );
+            str.append( "\n" );
         }
+        System.out.println(str);
     }
 
     public boolean meetEnemy( @NotNull String navigation ) {
