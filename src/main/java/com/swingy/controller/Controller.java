@@ -32,32 +32,40 @@ public class Controller {
     }
 
     private void attacks( Hero enemy ) {
-        System.out.println( "hero hp: " + this.hero.getHitPoints() + "\n" );
-        System.out.println( "enemy hp: " + enemy.getHitPoints() + "\n" );
+        System.out.println("HP before attack:");
+        System.out.println( "Hero HP -> " + this.hero.getHitPoints() + "\n" );
+        System.out.println( "Enemy HP -> " + enemy.getHitPoints() + "\n" );
 
         ThreadLocalRandom random = ThreadLocalRandom.current();
         if ( random.nextInt( 0, 10 ) >= 4 ) {
             if ( this.hero.getAttack() > enemy.getDefense() ) {
                 enemy.setHitPoints( enemy.getHitPoints() - ( this.hero.getAttack() - enemy.getDefense() ) );
                 System.out.println( this.hero.getAttack() );
-                System.out.println( "enemy attacked 1\n" );
+                System.out.println( "Enemy has been attacked!" );
+                System.out.println();
             } else if ( random.nextInt( 0, 10 ) <= 3 ) {
                 enemy.setHitPoints( enemy.getHitPoints() - this.hero.getAttack() );
-                System.out.println( "enemy attacked 2\n" );
+                System.out.println( "Enemy has been attacked!" );
+                System.out.println();
             }
         } else {
             if ( enemy.getAttack() > this.hero.getDefense() ) {
                 this.hero.setHitPoints( this.hero.getHitPoints() - ( enemy.getAttack() - this.hero.getDefense() ) );
                 System.out.println( enemy.getAttack() );
-                System.out.println( "hero attacked 1\n" );
+                System.out.println( "Hero has been attacked!" );
+                System.out.println();
             } else if ( random.nextInt( 0, 10 ) <= 2 ) {
                 this.hero.setHitPoints( this.hero.getHitPoints() - enemy.getAttack() );
-                System.out.println( "hero attacked 2\n" );
+                System.out.println( "Hero has been attacked!" );
+                System.out.println();
             }
         }
 
-        System.out.println( "hero hp: " + this.hero.getHitPoints() + "\n" );
-        System.out.println( "enemy hp: " + enemy.getHitPoints() + "\n" );
+        System.out.println("HP after attack:");
+        System.out.println( "Hero HP -> " + this.hero.getHitPoints() );
+        System.out.println();
+        System.out.println( "Enemy HP -> " + enemy.getHitPoints() );
+        System.out.println();
     }
 
     private int clashOfHeroes() {
@@ -79,17 +87,22 @@ public class Controller {
         }
     }
 
+    //TODO fix logic for no fight
     public void onFightNoButtonButtonPressed( Maps map ) {
         Random random = new Random();
+        GuiInterface gui = new GuiInterface();
         if ( random.nextInt( 2 ) == 1 ) {
+            //TODO show info for user
 //            System.out.println( "Sorry, the odds aren’t on your side, you must fight the villain." );
-            GuiInterface gui = new GuiInterface();
             if ( clashOfHeroes() == 1 ) {
                 map.levelUP( Maps.View.GUI );
                 gui.continueGameLevelUp( map );
             } else {
                 gui.endGame( "Fight is over. You lost. GG WP" );
             }
+        }
+        else {
+            gui.continueGame( map );
         }
     }
 

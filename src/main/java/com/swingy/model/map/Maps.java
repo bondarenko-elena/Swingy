@@ -178,12 +178,11 @@ public class Maps {
     public String move( String direction, View view ) {
         String move = this.navigation( direction, view );
         if ( move.equalsIgnoreCase( "end" ) ) {
-            System.out.println(
-                    "You reached on of the borders of the map and win. Game completed. GG WP" );
-            System.exit( 0 );
-        }
-        if ( view == View.CONSOLE ) {
-            printMaps( View.CONSOLE );
+            if ( view == View.CONSOLE ) {
+                System.out.println(
+                        "You reached on of the borders of the map and win. Game completed. GG WP" );
+                System.exit( 0 );
+            }
         }
         if ( view == View.GUI ) {
             refreshData();

@@ -7,7 +7,5 @@ public interface Display {
 
     void displayHeroCreate( int tumbler );
 
-    void displayStatistics( Hero hero );
-
     Hero displayStart();
 }

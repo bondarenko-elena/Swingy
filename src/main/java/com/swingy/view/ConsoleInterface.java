@@ -45,19 +45,19 @@ public class ConsoleInterface implements Display {
     @Override
     public void displayHeroCreate( int tumbler ) {
         int heroClass = 0;
-        String heroName = null;
+        String heroName = "";
         DBMethods dbData = new DBMethods();
         BufferedReader br = null;
 
         try {
             br = new BufferedReader( new InputStreamReader( System.in ) );
-            System.out.println( "Enter hero's name:" );
-            heroName = br.readLine();
+            while ( heroName.length() < 3 || heroName.length() > 10 ) {
+                System.out.println( "Enter hero's name (should be 3 chars min and 10 chars max) :" );
+                heroName = br.readLine();
+            }
             displayHeroClasses();
-            heroClass = Integer.parseInt( br.readLine() );
             while ( heroClass != 1 && heroClass != 2 && heroClass != 3 ) {
-                System.out.println( "Choose 1, 2 or 3." );
-                heroClass = Integer.parseInt( br.readLine() );
+                heroClass = parseString( heroClass, br, "Choose 1, 2 or 3." );
             }
         } catch ( Exception e ) {
             System.out.println( "ERROR: Invalid input for hero class." );
@@ -76,20 +76,8 @@ public class ConsoleInterface implements Display {
         }
     }
 
-    @Override
-    public void displayStatistics( Hero hero ) {
-        System.out.println( "Statistics:" );
-        System.out.println( "Name -> " + hero.getName() );
-        System.out.println( "Class -> " + hero.getHeroClass() );
-        System.out.println( "Level -> " + hero.getLevel() );
-        System.out.println( "Experience -> " + hero.getExperience() );
-        System.out.println( "Attack -> " + hero.getAttack() );
-        System.out.println( "Defense -> " + hero.getDefense() );
-        System.out.println( "Hit points: " + hero.getHitPoints() );
-        System.out.println( "------------------------>" );
-    }
-
     private void displayChooseOptions() {
+        System.out.println( "---WELCOME TO THE GAME---" );
         System.out.println( "Choose an option:" );
         System.out.println( "1. Select a previously created hero" );
         System.out.println( "2. Create a hero" );
@@ -113,7 +101,6 @@ public class ConsoleInterface implements Display {
                 dbData.selectAll();
                 int heroCount = dbData.selectCountSavedHeroes();
                 String exceptionMessage = "There is no hero with this ID. Choose a hero from the list above.";
-                //TODO add conditions
                 while ( heroChoice < 1 || heroChoice > heroCount ) {
                     try {
                         heroChoice = Integer.parseInt( br.readLine() );
@@ -122,7 +109,8 @@ public class ConsoleInterface implements Display {
                         }
                         System.out.println( exceptionMessage );
                     } catch ( NumberFormatException ex ) {
-                        ex.printStackTrace();
+                        System.out.println(
+                                "There is no hero with this ID. Choose a hero from the list above." );
                     }
                 }
                 hero = dbData.getHerodb( heroChoice );
@@ -158,25 +146,29 @@ public class ConsoleInterface implements Display {
     private int parseString( int variable, BufferedReader br, String msg ) throws IOException {
         try {
             variable = Integer.parseInt( br.readLine() );
+            if ( variable != 1 && variable != 2 && variable != 3 ) {
+                System.out.println( msg );
+            }
         } catch ( NumberFormatException e ) {
             System.out.println( msg );
         }
         return variable;
     }
 
+    //TODO check logic, remove superfluous
     private int clashOfHeroes() {
         int toReturn = 2;
         Hero enemy = createEnemy();
-        attack( enemy );
+//        attacks( enemy );
         boolean fight;
         while ( enemy.getHitPoints() > 0 && this.hero.getHitPoints() > 0 ) {
-            attack( enemy );
+            attacks( enemy );
         }
         fight = this.hero.getHitPoints() > 0 && enemy.getHitPoints() > 0;
         while ( fight ) {
-            attack( enemy );
+            attacks( enemy );
             while ( enemy.getHitPoints() > 0 && this.hero.getHitPoints() > 0 ) {
-                attack( enemy );
+                attacks( enemy );
             }
             fight = this.hero.getHitPoints() > 0 && enemy.getHitPoints() > 0;
         }
@@ -199,7 +191,6 @@ public class ConsoleInterface implements Display {
 
         this.hero = heroToRun;
         if ( heroToRun != null ) {
-            System.out.println( "---WELCOME TO THE GAME---" );
             System.out.println( "Here is your map." );
             Maps map = new Maps( this.hero, Maps.View.CONSOLE );
             while ( true ) {
@@ -241,7 +232,7 @@ public class ConsoleInterface implements Display {
                             int rand = random.nextInt( 2 );
                             if ( rand == 0 ) {
                                 System.out.println(
-                                        "Sorry, the odds aren’t on your side, you must fight the villain." );
+                                        "Sorry, the odds aren’t on your side, you must fight the enemy." );
                                 toReturn = clashOfHeroes();
                                 if ( toReturn == 1 ) {
                                     System.out.println( "Fight is over. You won." );
@@ -276,7 +267,7 @@ public class ConsoleInterface implements Display {
         String enemyName = enemies[ThreadLocalRandom.current().nextInt( enemies.length )];
         Hero enemy = HeroFactory.newHero( heroClass, enemyName );
         System.out.println( "This guy is your enemy:" );
-        displayStatistics( enemy );
+        System.out.println( enemy.toString() );
         return enemy;
     }
 
@@ -291,29 +282,28 @@ public class ConsoleInterface implements Display {
     }
 
     private void enemyAttacked( Hero enemy ) {
+        System.out.println("Fight is starting!");
         if ( this.hero.getAttack() > enemy.getDefense() ) {
             enemy.setHitPoints( enemy.getHitPoints() - ( this.hero.getAttack() - enemy.getDefense() ) );
-            System.out.println( this.hero.getAttack() );
-            System.out.println( "Enemy has been attacked by Hero 1!" );
+            System.out.println( "Enemy has been attacked!" );
         } else if ( ThreadLocalRandom.current().nextInt( 0, 10 ) <= 3 ) {
             enemy.setHitPoints( enemy.getHitPoints() - this.hero.getAttack() );
-            System.out.println( "Enemy has been attacked by Hero 2!" );
+            System.out.println( "Enemy has been attacked!" );
         }
     }
 
     private void heroAttacked( Hero enemy ) {
         if ( enemy.getAttack() > this.hero.getDefense() ) {
             this.hero.setHitPoints( this.hero.getHitPoints() - ( enemy.getAttack() - this.hero.getDefense() ) );
-            System.out.println( enemy.getAttack() );
-            System.out.println( "Hero has been attacked by Enemy 1!" );
+            System.out.println( "Hero has been attacked!" );
         } else if ( ThreadLocalRandom.current().nextInt( 0, 10 ) <= 2 ) {
             this.hero.setHitPoints( this.hero.getHitPoints() - enemy.getAttack() );
-            System.out.println( "Hero has been attacked by Enemy 2!" );
+            System.out.println( "Hero has been attacked!" );
         }
     }
 
     //TODO check attack statistic
-    private void attack( Hero enemy ) {
+    private void attacks( Hero enemy ) {
         displayHP( enemy, 0 );
         if ( ThreadLocalRandom.current().nextInt( 0, 10 ) >= 4 ) {
             enemyAttacked( enemy );

@@ -75,10 +75,10 @@ public class DBMethods {
             pstmt.setInt( 6, heroAtk );
             pstmt.setInt( 7, heroDef );
             pstmt.execute();
-            System.out.println( "\nNew hero added to database" );
+            System.out.println( "New hero added to database" );
         } catch ( SQLException ex ) {
             //TODO is this correct behaviour?
-            System.out.println( "\nError: Hero name '" + heroName + "' already in use" );
+            System.out.println( "ERROR: Hero name '" + heroName + "' already in use" );
             System.exit( 0 );
         }
     }

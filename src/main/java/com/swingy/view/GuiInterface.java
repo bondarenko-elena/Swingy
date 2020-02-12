@@ -130,7 +130,10 @@ public class GuiInterface extends JPanel implements Display {
         if ( tumbler == 1 ) {
             this.add( new JLabel( "Invalid name or class. Try again." ), gbc );
         }
-        this.add( new JLabel( "Enter hero's name (should be 3 chars min and 10 chars max) :" ), gbc );
+        this.add(
+                new JLabel( "Enter hero's name (should be 3 chars min and 10 chars max) :" ),
+                gbc
+        );
         this.add( heroName, gbc );
         this.add( new JLabel( "Class       Attack      Defense     HP" ), gbc );
         this.add( new JLabel( "1. Witcher     150     120     250" ), gbc );
@@ -376,6 +379,10 @@ public class GuiInterface extends JPanel implements Display {
             public void actionPerformed( ActionEvent e ) {
                 heroId = Integer.parseInt( heroSelectId.getText() );
                 hero = dbData.getHerodb( heroId );
+                if (hero == null) {
+
+                }
+                //TODO add validation
                 controller.onHeroSelectSaveButtonPressed( hero );
             }
         } );
@@ -393,10 +400,6 @@ public class GuiInterface extends JPanel implements Display {
         setVisible();
 
         return hero;
-    }
-
-    @Override
-    public void displayStatistics( Hero hero ) {
     }
 
     @Override
