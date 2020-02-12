@@ -153,10 +153,24 @@ public class Controller {
         GuiInterface.switchView();
     }
 
-    public void onHeroSelectSaveButtonPressed( Hero hero ) {
+    private boolean validateHeroSelect( Hero hero ) {
+        if ( hero == null ) {
+            return false;
+        }
+        return true;
+    }
+
+    public void onHeroSelectSaveButtonPressed( Hero hero, int heroId ) {
         this.hero = hero;
-        GuiInterface gui = new GuiInterface();
-        gui.displayHeroSelected( hero.getName() );
+        //TODO check bounds and str
+        if (validateHeroSelect( hero) == false || (heroId < 1 || heroId > 100)) {
+            GuiInterface gui = new GuiInterface();
+            gui.displayHeroSelect();
+        }
+        else {
+            GuiInterface gui = new GuiInterface();
+            gui.displayHeroSelected( hero.getName() );
+        }
     }
 
     public void onHeroSelectButtonPressed() {
@@ -171,7 +185,7 @@ public class Controller {
 
     private boolean validateFields( String heroClass, String heroName ) {
         if ( ( !( ( heroClass.equalsIgnoreCase( "1" ) || heroClass.equalsIgnoreCase( "2" ) || heroClass
-                .equalsIgnoreCase( "" ) ) ) ) || ( heroName.length() < 3 || heroName.length() > 10 ) ) {
+                .equalsIgnoreCase( "3" ) ) ) ) || ( heroName.length() < 3 || heroName.length() > 10 ) ) {
             return false;
         }
         return true;

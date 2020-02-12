@@ -379,11 +379,8 @@ public class GuiInterface extends JPanel implements Display {
             public void actionPerformed( ActionEvent e ) {
                 heroId = Integer.parseInt( heroSelectId.getText() );
                 hero = dbData.getHerodb( heroId );
-                if (hero == null) {
-
-                }
                 //TODO add validation
-                controller.onHeroSelectSaveButtonPressed( hero );
+                controller.onHeroSelectSaveButtonPressed( hero, heroId );
             }
         } );
 
