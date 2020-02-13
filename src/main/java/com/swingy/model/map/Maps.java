@@ -177,6 +177,8 @@ public class Maps {
     }
 
     public void levelUP( View view ) {
+        //TODO check levels
+        hero.getLevel();
         if ( view == View.CONSOLE ) {
             System.out.println( "You have won the fight and achieved new level!" );
         }

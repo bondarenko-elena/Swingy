@@ -14,23 +14,17 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ConsoleInterface implements Display {
     private Hero hero = null;
 
-    public Hero getHero() {
-        return hero;
-    }
-
-    public void setHero( Hero hero ) {
-        this.hero = hero;
-    }
-
     private void displayHeroClasses() {
-        System.out.println( "Choose Hero class:" );
-        System.out.println( "   Class       Attack      Defense     HP" );
-        System.out.println( "1. Witcher     150         120          250" );
-        System.out.println( "2. Mage         110         100          250" );
-        System.out.println( "3. Fighter       140         100          300" );
+        String displayHeroClasses = "Choose Hero class:" +
+                "\n   Class       Attack      Defense     HP" +
+                "\n1. Witcher     150         120          250" +
+                "\n2. Mage         110         100          250" +
+                "\n3. Fighter       140         100          300";
+        System.out.println( displayHeroClasses );
     }
 
-    private void addHeroToDB( Hero hero, DBMethods dbData ) {
+    private void addHeroToDB() {
+        DBMethods dbData = new DBMethods();
         dbData.addHero(
                 hero.getName(),
                 hero.getHeroClass(),
@@ -56,10 +50,9 @@ public class ConsoleInterface implements Display {
     @Override
     public void displayHeroCreate( int tumbler ) {
         int heroClass = 0;
-        String heroName = "";
+        String heroName = null;
         DBMethods dbData = new DBMethods();
         BufferedReader br = null;
-
         try {
             br = new BufferedReader( new InputStreamReader( System.in ) );
             while ( ( heroName.length() < 3 || heroName.length() > 10 ) || ( checkUniqueHeroName(
@@ -85,7 +78,7 @@ public class ConsoleInterface implements Display {
             System.exit( 1 );
         } finally {
             hero = HeroFactory.newHero( heroClass, heroName );
-            addHeroToDB( hero, dbData );
+            addHeroToDB();
             System.out.println( "Hero created successfully" );
         }
     }
@@ -122,9 +115,8 @@ public class ConsoleInterface implements Display {
                             break;
                         }
                         System.out.println( exceptionMessage );
-                    } catch ( NumberFormatException ex ) {
-                        System.out.println(
-                                "There is no hero with this ID. Choose a hero from the list above." );
+                    } catch ( NumberFormatException e ) {
+                        System.out.println( exceptionMessage );
                     }
                 }
                 hero = dbData.getHerodb( heroChoice );
@@ -136,7 +128,7 @@ public class ConsoleInterface implements Display {
                 System.out.println( "Here is choosen hero." );
                 System.out.println( hero.toString() );
                 return hero;
-            } else if ( optionChoice == 3 ) {
+            }  else {
                 System.out.println( "Gui view is opened" );
                 GuiInterface gui = new GuiInterface();
                 gui.runGame();
@@ -147,14 +139,9 @@ public class ConsoleInterface implements Display {
             System.out.println( ex.getMessage() );
             System.exit( 1 );
         }
-        try {
-            if ( br != null ) {
-                br.close();
-            }
-        } catch ( IOException ioe ) {
-            ioe.printStackTrace();
-        }
-        return null;
+        System.out.println( "Here is chosen hero." );
+        System.out.println( hero );
+        return hero;
     }
 
     private int parseString( int variable, BufferedReader br, String msg ) throws IOException {
@@ -283,8 +270,13 @@ public class ConsoleInterface implements Display {
     }
 
     private void enemyAttacked( Hero enemy ) {
-        if ( ThreadLocalRandom.current().nextInt( 0, 10 ) <= 3 ) {
+        if ( this.hero.getAttack() > enemy.getDefense() ) {
+            enemy.setHitPoints( enemy.getHitPoints() - ( this.hero.getAttack() - enemy.getDefense() ) );
+            System.out.println( this.hero.getAttack() );
+            System.out.println( "Enemy has been attacked by Hero 1!" );
+        } else if ( ThreadLocalRandom.current().nextInt( 0, 10 ) <= 3 ) {
             enemy.setHitPoints( enemy.getHitPoints() - this.hero.getAttack() );
+            System.out.println( "Enemy has been attacked by Hero 2!" );
         }
     }
 

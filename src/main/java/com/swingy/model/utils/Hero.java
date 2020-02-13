@@ -2,6 +2,7 @@ package com.swingy.model.utils;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@ToString
 public class Hero {
 
     @NotNull( message = "Hero name can not be null" )
@@ -36,16 +38,16 @@ public class Hero {
     @Size( min = 50, max = 2000, message = "Max HP" )
     private int hitPoints;
 
-    @Override
-    public String toString() {
-        return "Hero{" +
-                "name='" + name + '\'' +
-                ", heroClass='" + heroClass + '\'' +
-                ", level=" + level +
-                ", experience=" + experience +
-                ", attack=" + attack +
-                ", defense=" + defense +
-                ", hitPoints=" + hitPoints +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Hero{" +
+//                "name='" + name + '\'' +
+//                ", heroClass='" + heroClass + '\'' +
+//                ", level=" + level +
+//                ", experience=" + experience +
+//                ", attack=" + attack +
+//                ", defense=" + defense +
+//                ", hitPoints=" + hitPoints +
+//                '}';
+//    }
 }
