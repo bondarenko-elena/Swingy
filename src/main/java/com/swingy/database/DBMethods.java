@@ -219,7 +219,7 @@ public class DBMethods {
         try (
                 Connection conn = dbcon.connect();
                 Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery( sql );
+                ResultSet rs = stmt.executeQuery( sql )
         ) {
             while ( rs.next() ) {
                 int heroClassFactory = 0;

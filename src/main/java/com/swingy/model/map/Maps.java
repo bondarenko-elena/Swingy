@@ -77,7 +77,7 @@ public class Maps {
         }
     }
 
-    public boolean meetEnemy( @NotNull String navigation ) {
+    private boolean meetEnemy( @NotNull String navigation ) {
         if ( navigation.equalsIgnoreCase( "n" ) ) {
             return this.map[xHero - 1][yHero] == '#';
         } else if ( navigation.equalsIgnoreCase( "s" ) ) {

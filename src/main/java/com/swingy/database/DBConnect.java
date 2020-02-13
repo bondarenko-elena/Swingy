@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 class DBConnect {
 
-    public Connection connect() {
+    Connection connect() {
         return getConnect();
     }
 

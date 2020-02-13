@@ -112,11 +112,6 @@ public class Controller {
         }
     }
 
-    public void onOkButtonButtonPressed( Maps map ) {
-        GuiInterface gui = new GuiInterface();
-        gui.continueGame( map );
-    }
-
     public void onHeroCreateButtonPressed() {
         GuiInterface gui = new GuiInterface();
         gui.displayHeroCreate( 0 );
@@ -127,10 +122,7 @@ public class Controller {
     }
 
     private boolean validateHeroSelect( Hero hero ) {
-        if ( hero == null ) {
-            return false;
-        }
-        return true;
+        return hero != null;
     }
 
     public void onHeroSelectSaveButtonPressed( DBMethods dbData, JTextField heroSelectId ) {
@@ -147,7 +139,7 @@ public class Controller {
         }
 
         this.hero = dbData.getHerodb( heroId );
-        if ( validateHeroSelect( hero ) == false || ( heroId < 1 || heroId > 100 ) ) {
+        if ( !validateHeroSelect( hero ) || ( heroId < 1 || heroId > 100 ) ) {
             GuiInterface gui = new GuiInterface();
             gui.displayHeroSelect();
         } else {
@@ -193,11 +185,14 @@ public class Controller {
             GuiInterface gui = new GuiInterface();
             gui.displayHeroCreate( 1 );
         }
-        if ( checkUniqueHeroName( heroName.getText(), dbData ) == true ) {
+        if ( checkUniqueHeroName( heroName.getText(), dbData ) ) {
             GuiInterface gui = new GuiInterface();
             gui.displayHeroCreate( 2 );
         }
-        if ( (validateFields( heroClass.getText(), heroName.getText() ) == true) && (checkUniqueHeroName( heroName.getText(), dbData ) == false)) {
+        if ( ( validateFields(
+                heroClass.getText(),
+                heroName.getText()
+        ) ) && (checkUniqueHeroName( heroName.getText(), dbData ) == false)) {
             Main.hero = HeroFactory.newHero(
                     Integer.parseInt( heroClass.getText() ),
                     heroName.getText()
