@@ -8,6 +8,7 @@ import com.swingy.model.utils.HeroFactory;
 import com.swingy.view.GuiInterface;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -167,7 +168,7 @@ public class Controller {
     }
 
     private boolean checkUniqueHeroName( String heroName, DBMethods dbData ) {
-        String[] listNames = dbData.selectAllHeroNames();
+        ArrayList<String> listNames = dbData.selectAllHeroNames();
         for ( String name : listNames ) {
             if ( name.equalsIgnoreCase( heroName ) ) {
                 return true;
@@ -181,7 +182,7 @@ public class Controller {
             JTextField heroName,
             DBMethods dbData
     ) {
-        if ( validateFields( heroClass.getText(), heroName.getText() ) == false ) {
+        if ( !validateFields( heroClass.getText(), heroName.getText() ) ) {
             GuiInterface gui = new GuiInterface();
             gui.displayHeroCreate( 1 );
         }
@@ -192,20 +193,12 @@ public class Controller {
         if ( ( validateFields(
                 heroClass.getText(),
                 heroName.getText()
-        ) ) && (checkUniqueHeroName( heroName.getText(), dbData ) == false)) {
+        ) ) && ( !checkUniqueHeroName( heroName.getText(), dbData ) )) {
             Main.hero = HeroFactory.newHero(
                     Integer.parseInt( heroClass.getText() ),
                     heroName.getText()
             );
-            dbData.addHero(
-                    Main.hero.getName(),
-                    Main.hero.getHeroClass(),
-                    Main.hero.getLevel(),
-                    Main.hero.getExperience(),
-                    Main.hero.getHitPoints(),
-                    Main.hero.getAttack(),
-                    Main.hero.getDefense()
-            );
+            dbData.addHero( hero );
             GuiInterface gui = new GuiInterface();
             hero = gui.displayHeroSelect();
         }

@@ -52,28 +52,20 @@ public class DBMethods {
         }
     }
 
-    public void addHero(
-            String heroName,
-            String heroClass,
-            int heroLevel,
-            int heroExp,
-            int heroAtk,
-            int heroDef,
-            int heroHP
-    ) {
+    public void addHero( Hero hero ) {
         DBConnect dbCon = new DBConnect();
         String sql = "INSERT INTO heroes (heroName, heroClass, heroLevel, heroExp, heroHP, heroAtk, heroDef) VALUES (?,?,?,?,?,?,?)";
         try (
                 Connection conn = dbCon.connect();
                 PreparedStatement pstmt = conn.prepareStatement( sql )
         ) {
-            pstmt.setString( 1, heroName );
-            pstmt.setString( 2, heroClass );
-            pstmt.setInt( 3, heroLevel );
-            pstmt.setInt( 4, heroExp );
-            pstmt.setInt( 5, heroHP );
-            pstmt.setInt( 6, heroAtk );
-            pstmt.setInt( 7, heroDef );
+            pstmt.setString( 1,hero.getName() );
+            pstmt.setString( 2,hero.getHeroClass() );
+            pstmt.setInt( 3,hero.getLevel() );
+            pstmt.setInt( 4,hero.getExperience() );
+            pstmt.setInt( 5,hero.getHitPoints() );
+            pstmt.setInt( 6,hero.getAttack() );
+            pstmt.setInt( 7,hero.getDefense() );
             pstmt.execute();
             System.out.println( "New hero added to database" );
         } catch ( SQLException ex ) {
@@ -106,28 +98,22 @@ public class DBMethods {
         }
     }
 
-    public String[] selectAllHeroNames() {
+    public ArrayList<String> selectAllHeroNames() {
         DBConnect dbCon = new DBConnect();
-        String sql = "SELECT * FROM heroes";
+        String sql = "SELECT heroName FROM heroes";
         ArrayList<String> list = new ArrayList<>();
-        String[] listArr = new String[list.size()];
-        ResultSet rs;
         try {
             Connection conn = dbCon.connect();
             Statement stmt = conn.createStatement();
-            rs = stmt.executeQuery( sql );
+            ResultSet rs = stmt.executeQuery( sql );
             while ( rs.next() ) {
-                list.add( String.format(
-                        "%s",
-                        rs.getString( "heroName" )
-                        ) );
+                list.add( rs.getString( "heroName" ) );
             }
-            listArr = list.toArray( listArr );
         } catch ( SQLException ex ) {
             System.out.println( ex.getMessage() + "selection error" );
             System.exit( 0 );
         }
-        return listArr;
+        return list;
     }
 
     public String[] selectAllGui() {

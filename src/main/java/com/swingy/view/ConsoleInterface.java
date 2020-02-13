@@ -8,21 +8,19 @@ import com.swingy.model.utils.HeroFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ConsoleInterface implements Display {
     private Hero hero = null;
+    private final DBMethods dbData = new DBMethods();
 
-    public Hero getHero() {
-        return hero;
-    }
-
-    public void setHero( Hero hero ) {
-        this.hero = hero;
-    }
 
     private void displayHeroClasses() {
+        // TODO collapse into one
         System.out.println( "Choose Hero class:" );
         System.out.println( "   Class       Attack      Defense     HP" );
         System.out.println( "1. Witcher     150         120          250" );
@@ -30,20 +28,12 @@ public class ConsoleInterface implements Display {
         System.out.println( "3. Fighter       140         100          300" );
     }
 
-    private void addHeroToDB( Hero hero, DBMethods dbData ) {
-        dbData.addHero(
-                hero.getName(),
-                hero.getHeroClass(),
-                hero.getLevel(),
-                hero.getExperience(),
-                hero.getHitPoints(),
-                hero.getAttack(),
-                hero.getDefense()
-        );
-    }
-
-    private boolean checkUniqueHeroName( String heroName, DBMethods dbData ) {
-        String[] listNames = dbData.selectAllHeroNames();
+    private boolean checkUniqueHeroName( final String heroName ) {
+/*        return dbData.selectAllHeroNames().stream()
+                     .filter( name -> name.equalsIgnoreCase( heroName ) )
+                     .findAny()
+                     .isPresent();*/
+        ArrayList<String> listNames = dbData.selectAllHeroNames();
         for ( String name : listNames ) {
             if ( name.equalsIgnoreCase( heroName ) ) {
                 System.out.println( heroName + " is already in use." );
@@ -57,21 +47,18 @@ public class ConsoleInterface implements Display {
     public void displayHeroCreate( int tumbler ) {
         int heroClass = 0;
         String heroName = "";
-        DBMethods dbData = new DBMethods();
         BufferedReader br = null;
 
         try {
             br = new BufferedReader( new InputStreamReader( System.in ) );
-            while ( ( heroName.length() < 3 || heroName.length() > 10 ) || ( checkUniqueHeroName(
-                    heroName,
-                    dbData
-            ) ) ) {
+            while ( ( heroName.length() < 3 || heroName.length() > 10 )
+                    || ( checkUniqueHeroName( heroName ) ) ) {
                 System.out.println( "Enter hero's name (should be 3 chars min and 10 chars max) :" );
                 heroName = br.readLine();
             }
             displayHeroClasses();
             while ( heroClass != 1 && heroClass != 2 && heroClass != 3 ) {
-                heroClass = parseString( heroClass, br, "Choose 1, 2 or 3." );
+                heroClass = parseString( heroClass, br );
             }
         } catch ( Exception e ) {
             System.out.println( "ERROR: Invalid input for hero class." );
@@ -85,12 +72,13 @@ public class ConsoleInterface implements Display {
             System.exit( 1 );
         } finally {
             hero = HeroFactory.newHero( heroClass, heroName );
-            addHeroToDB( hero, dbData );
+            dbData.addHero( hero );
             System.out.println( "Hero created successfully" );
         }
     }
 
     private void displayChooseOptions() {
+        // todo collapse into one
         System.out.println( "---WELCOME TO THE GAME---" );
         System.out.println( "Choose an option:" );
         System.out.println( "1. Select a previously created hero" );
@@ -102,41 +90,34 @@ public class ConsoleInterface implements Display {
     public Hero displayStart() {
         int optionChoice = 0;
         int heroChoice = 0;
-        DBMethods dbData = new DBMethods();
         BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
 
         displayChooseOptions();
         try {
             while ( optionChoice != 1 && optionChoice != 2 && optionChoice != 3 ) {
-                optionChoice = parseString( optionChoice, br, "Choose 1, 2 or 3." );
+                optionChoice = parseString( optionChoice, br );
             }
             if ( optionChoice == 1 ) {
                 System.out.println( "Here is a list of saved heroes. Choose a hero by id." );
                 dbData.selectAll();
                 int heroCount = dbData.selectCountSavedHeroes();
                 String exceptionMessage = "There is no hero with this ID. Choose a hero from the list above.";
+                // todo (optionally) rethink logic
                 while ( heroChoice < 1 || heroChoice > heroCount ) {
                     try {
                         heroChoice = Integer.parseInt( br.readLine() );
-                        if ( heroChoice > 0 && heroChoice < heroCount ) {
+                        if ( heroChoice > 0 && heroChoice <= heroCount ) {
                             break;
                         }
                         System.out.println( exceptionMessage );
                     } catch ( NumberFormatException ex ) {
-                        System.out.println(
-                                "There is no hero with this ID. Choose a hero from the list above." );
+                        System.out.println( exceptionMessage );
                     }
                 }
                 hero = dbData.getHerodb( heroChoice );
-                System.out.println( "Here is choosen hero." );
-                System.out.println( hero.toString() );
-                return hero;
             } else if ( optionChoice == 2 ) {
                 displayHeroCreate( 0 );
-                System.out.println( "Here is choosen hero." );
-                System.out.println( hero.toString() );
-                return hero;
-            } else if ( optionChoice == 3 ) {
+            } else {
                 System.out.println( "Gui view is opened" );
                 GuiInterface gui = new GuiInterface();
                 gui.runGame();
@@ -145,50 +126,36 @@ public class ConsoleInterface implements Display {
         } catch ( Exception ex ) {
             System.out.println( "ERROR: Invalid input" );
             System.out.println( ex.getMessage() );
+            try {
+                br.close();
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            }
             System.exit( 1 );
         }
-        try {
-            if ( br != null ) {
-                br.close();
-            }
-        } catch ( IOException ioe ) {
-            ioe.printStackTrace();
-        }
-        return null;
+        System.out.println( "Here is chosen hero." );
+        System.out.println( hero );
+        return hero;
     }
 
-    private int parseString( int variable, BufferedReader br, String msg ) throws IOException {
+    private int parseString( int variable, BufferedReader br ) throws IOException {
         try {
             variable = Integer.parseInt( br.readLine() );
             if ( variable != 1 && variable != 2 && variable != 3 ) {
-                System.out.println( msg );
+                System.out.println( "Choose 1, 2 or 3." );
             }
         } catch ( NumberFormatException e ) {
-            System.out.println( msg );
+            System.out.println( "Choose 1, 2 or 3." );
         }
         return variable;
     }
 
-    private int clashOfHeroes() {
-        int toReturn = 2;
+    private boolean clashOfHeroes() {
         Hero enemy = createEnemy();
-        boolean fight;
-        while ( enemy.getHitPoints() > 0 && this.hero.getHitPoints() > 0 ) {
+        while ( enemy.getHitPoints() > 0 && hero.getHitPoints() > 0 ) {
             attacks( enemy );
         }
-        fight = this.hero.getHitPoints() > 0 && enemy.getHitPoints() > 0;
-        while ( fight ) {
-            while ( enemy.getHitPoints() > 0 && this.hero.getHitPoints() > 0 ) {
-                attacks( enemy );
-            }
-            fight = this.hero.getHitPoints() > 0 && enemy.getHitPoints() > 0;
-        }
-        if ( this.hero.getHitPoints() <= 0 && ( enemy.getHitPoints() > 0 ) ) {
-            toReturn = 0;
-        } else if ( ( enemy.getHitPoints() <= 0 ) && ( this.hero.getHitPoints() > 0 ) ) {
-            toReturn = 1;
-        }
-        return toReturn;
+        return ( enemy.getHitPoints() <= 0 ) && ( hero.getHitPoints() > 0 );
     }
 
     @Override
@@ -196,80 +163,65 @@ public class ConsoleInterface implements Display {
     }
 
     public void runGame( Hero heroToRun ) {
-        String move;
         BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
-        int toReturn;
-
         this.hero = heroToRun;
-        if ( heroToRun != null ) {
-            System.out.println( "Here is your map." );
-            Maps map = new Maps( this.hero, Maps.View.CONSOLE );
-            while ( true ) {
-                try {
-                    System.out.println(
-                            "You can move through the map by keyboard: N - north, S - south, E - east, W - west. Choose direction: " );
-                    String readMove = br.readLine();
-                    while ( !( readMove.equalsIgnoreCase( "n" ) || readMove.equalsIgnoreCase( "s" ) || readMove
-                            .equalsIgnoreCase( "e" ) || readMove.equalsIgnoreCase( "w" ) ) ) {
-                        System.out.println(
-                                "Use N, S, E or W for direction. Choose direction: " );
-                        readMove = br.readLine();
-                    }
-                    move = map.move( readMove, Maps.View.CONSOLE );
-                    if ( move.equalsIgnoreCase( "end" ) ) {
-                        System.out.println( "You finished the game. GG WP." );
-                        break;
-                    }
-                    if ( move.equalsIgnoreCase( "fight" ) ) {
-                        System.out.println(
-                                "Do you want to fight? Choose Y - yes, N - no. Make your choise:" );
-                        String fight = br.readLine();
-                        while ( !( fight.equalsIgnoreCase( "y" ) || fight.equalsIgnoreCase(
-                                "n" ) ) ) {
-                            System.out.println( "Use Y - yes, N - no. Make your choise:" );
-                            fight = br.readLine();
-                        }
-                        if ( fight.equalsIgnoreCase( "y" ) ) {
-                            toReturn = clashOfHeroes();
-                            if ( toReturn == 1 ) {
-                                System.out.println( "Fight is over. You won." );
-                                map.levelUP( Maps.View.CONSOLE );
-                            } else {
-                                System.out.println( "Fight is over. You lost. GG WP" );
-                                System.exit( 0 );
-                            }
-                        } else if ( fight.equalsIgnoreCase( "n" ) ) {
-                            Random random = new Random();
-                            int rand = random.nextInt( 2 );
-                            if ( rand == 0 ) {
-                                System.out.println(
-                                        "Sorry, the odds aren’t on your side, you must fight the enemy." );
-                                toReturn = clashOfHeroes();
-                                if ( toReturn == 1 ) {
-                                    System.out.println( "Fight is over. You won." );
-                                    map.levelUP( Maps.View.CONSOLE );
-                                } else {
-                                    System.out.println( "Fight is over. You lost. GG WP" );
-                                    System.exit( 0 );
-                                }
-                            } else if ( rand == 1 ) {
-                                System.out.println( "You stayed on the same place." );
-                            }
-                        }
-                    }
-                } catch ( IOException ioe ) {
-                    ioe.printStackTrace();
-                }
-            }
+        System.out.println( "Here is your map." );
+        Maps map = new Maps( this.hero, Maps.View.CONSOLE );
+        while ( true ) {
             try {
-                if ( br != null ) {
-                    br.close();
+                System.out.println(
+                        "You can move through the map by keyboard: N - north, S - south, E - east, W - west. Choose direction: " );
+                String readMove = br.readLine();
+                List<String> moves =  Arrays.asList( "n", "s", "e", "w" );
+                while ( !moves.contains( readMove.toLowerCase() ) ) {
+                    System.out.println( "Use N, S, E or W for direction. Choose direction: " );
+                    readMove = br.readLine();
+                }
+                String move = map.move( readMove, Maps.View.CONSOLE );
+                if ( move.equalsIgnoreCase( "end" ) ) {
+                    System.out.println( "You finished the game. GG WP." );
+                    break;
+                }
+                if ( move.equalsIgnoreCase( "fight" ) ) {
+                    System.out.println(
+                            "Do you want to fight? Choose Y - yes, N - no. Make your choice:" );
+                    String fight = br.readLine();
+                    while ( !( fight.equalsIgnoreCase( "y" ) || fight.equalsIgnoreCase(
+                            "n" ) ) ) {
+                        System.out.println( "Use Y - yes, N - no. Make your choise:" );
+                        fight = br.readLine();
+                    }
+                    if ( fight.equalsIgnoreCase( "y" ) ) {
+                        doFight( map );
+                    } else if ( fight.equalsIgnoreCase( "n" ) ) {
+                        Random random = new Random();
+                        if ( random.nextInt( 2 ) == 0 ) {
+                            System.out.println( "Sorry, the odds aren’t on your side, you must fight the enemy." );
+                            doFight( map );
+                        } else {
+                            System.out.println( "You stayed on the same place." );
+                        }
+                    }
                 }
             } catch ( IOException ioe ) {
                 ioe.printStackTrace();
             }
         }
-        System.exit( 1 );
+        try {
+            br.close();
+        } catch ( IOException ioe ) {
+            ioe.printStackTrace();
+        }
+    }
+
+    private void doFight( Maps map ) {
+        if ( clashOfHeroes() ) {
+            System.out.println( "Fight is over. You won." );
+            map.levelUP( Maps.View.CONSOLE );
+        } else {
+            System.out.println( "Fight is over. You lost. GG WP" );
+            System.exit( 0 );
+        }
     }
 
     private Hero createEnemy() {
@@ -278,11 +230,14 @@ public class ConsoleInterface implements Display {
         String enemyName = enemies[ThreadLocalRandom.current().nextInt( enemies.length )];
         Hero enemy = HeroFactory.newHero( heroClass, enemyName );
         System.out.println( "This guy is your enemy:" );
-        System.out.println( enemy.toString() );
+        System.out.println( enemy );
         return enemy;
     }
 
     private void enemyAttacked( Hero enemy ) {
+        if ( this.hero.getAttack() > enemy.getDefense() ) {
+            enemy.setHitPoints( enemy.getHitPoints() - ( this.hero.getAttack() - enemy.getDefense() ) );
+        }
         if ( ThreadLocalRandom.current().nextInt( 0, 10 ) <= 3 ) {
             enemy.setHitPoints( enemy.getHitPoints() - this.hero.getAttack() );
         }
