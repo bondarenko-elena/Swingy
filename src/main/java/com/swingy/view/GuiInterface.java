@@ -124,11 +124,14 @@ public class GuiInterface extends JPanel implements Display {
     public void displayHeroCreate( int tumbler ) {
         GridBagConstraints gbc = setStyle( "Create hero" );
 
-        heroName = new JTextField( 8 );
+        heroName = new JTextField( 10 );
         heroClass = new JTextField( 8 );
 
         if ( tumbler == 1 ) {
             this.add( new JLabel( "Invalid name or class. Try again." ), gbc );
+        }
+        if ( tumbler == 2 ) {
+            this.add( new JLabel( "This heroName is already in use." ), gbc );
         }
         this.add(
                 new JLabel( "Enter hero's name (should be 3 chars min and 10 chars max) :" ),
@@ -180,7 +183,7 @@ public class GuiInterface extends JPanel implements Display {
         noButton.addActionListener( new ActionListener() {
             @Override
             public void actionPerformed( ActionEvent e ) {
-                controller.onFightNoButtonButtonPressed( map );
+                controller.onFightNoButtonButtonPressed( map, getFrame() );
             }
         } );
 
@@ -258,7 +261,7 @@ public class GuiInterface extends JPanel implements Display {
     public void continueGameLevelUp( Maps continueMap ) {
         GridBagConstraints gbc = setStyle( "Continue game" );
 
-        this.add( new JLabel( "You have achieved new level." ), gbc );
+        this.add( new JLabel( "You have won the fight and achieved new level!" ), gbc );
         this.add( new JLabel( "Here is your new map" ), gbc );
         this.add( new JLabel( "You can move through the map by keyboard:" ), gbc );
         this.add( new JLabel( "N - north, S - south, E - east, W - west." ), gbc );
@@ -377,10 +380,7 @@ public class GuiInterface extends JPanel implements Display {
         heroSelectSaveButton.addActionListener( new ActionListener() {
             @Override
             public void actionPerformed( ActionEvent e ) {
-                heroId = Integer.parseInt( heroSelectId.getText() );
-                hero = dbData.getHerodb( heroId );
-                //TODO add validation
-                controller.onHeroSelectSaveButtonPressed( hero, heroId );
+                controller.onHeroSelectSaveButtonPressed( dbData, heroSelectId );
             }
         } );
 

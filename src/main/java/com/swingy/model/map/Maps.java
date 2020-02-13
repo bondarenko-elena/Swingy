@@ -44,7 +44,7 @@ public class Maps {
     }
 
     private boolean checkEdge() {
-        return ( xHero == 1 || yHero == 1 || xHero == mapSize - 2 || yHero == mapSize - 2 );
+        return ( xHero == 0 || yHero == 0 || xHero == mapSize - 1 || yHero == mapSize - 1 );
     }
 
     private void setMap( @NotNull Hero hero ) {
@@ -71,6 +71,9 @@ public class Maps {
         }
         if ( view == View.CONSOLE ) {
             System.out.println( str );
+        }
+        if ( view == View.GUI) {
+            refreshData();
         }
     }
 
@@ -119,6 +122,9 @@ public class Maps {
                     this.map[--xHero][yHero] = 'H';
                     this.map[xHero + 1][yHero] = '*';
                     printMaps( view );
+                    if ( checkEdge() ) {
+                        return "END";
+                    }
                     return "CONTINUE";
                 case "s":
                     if ( checkEdge() ) {
@@ -130,6 +136,9 @@ public class Maps {
                     this.map[++xHero][yHero] = 'H';
                     this.map[xHero - 1][yHero] = '*';
                     printMaps( view );
+                    if ( checkEdge() ) {
+                        return "END";
+                    }
                     return "CONTINUE";
                 case "e":
                     if ( checkEdge() ) {
@@ -141,6 +150,9 @@ public class Maps {
                     this.map[xHero][++yHero] = 'H';
                     this.map[xHero][yHero - 1] = '*';
                     printMaps( view );
+                    if ( checkEdge() ) {
+                        return "END";
+                    }
                     return "CONTINUE";
                 case "w":
                     if ( checkEdge() ) {
@@ -152,6 +164,9 @@ public class Maps {
                     this.map[xHero][--yHero] = 'H';
                     this.map[xHero][yHero + 1] = '*';
                     printMaps( view );
+                    if ( checkEdge() ) {
+                        return "END";
+                    }
                     return "CONTINUE";
                 default:
                     System.out.println( "Invalid navigation." );
@@ -162,7 +177,9 @@ public class Maps {
     }
 
     public void levelUP( View view ) {
-        System.out.println( "You have achieved new level!" );
+        if ( view == View.CONSOLE ) {
+            System.out.println( "You have won the fight and achieved new level!" );
+        }
         this.hero.setLevel( ++this.level );
         this.setMap( this.hero );
         setEnemy();

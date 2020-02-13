@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-//TODO check conditions and sout
 public class Controller {
     private Hero hero;
     private static Controller instance;
@@ -25,47 +24,20 @@ public class Controller {
 
     private Hero createEnemy() {
         int heroClass = (int) ( Math.random() * 2 + 4 );
-        Hero enemy = HeroFactory.newHero( heroClass, null );
-//        System.out.println( "This guy is your enemy." );
-//        displayStatistics( enemy );
-        return enemy;
+        return HeroFactory.newHero( heroClass, null );
     }
 
     private void attacks( Hero enemy ) {
-        System.out.println("HP before attack:");
-        System.out.println( "Hero HP -> " + this.hero.getHitPoints() + "\n" );
-        System.out.println( "Enemy HP -> " + enemy.getHitPoints() + "\n" );
-
         ThreadLocalRandom random = ThreadLocalRandom.current();
         if ( random.nextInt( 0, 10 ) >= 4 ) {
             if ( this.hero.getAttack() > enemy.getDefense() ) {
                 enemy.setHitPoints( enemy.getHitPoints() - ( this.hero.getAttack() - enemy.getDefense() ) );
-                System.out.println( this.hero.getAttack() );
-                System.out.println( "Enemy has been attacked!" );
-                System.out.println();
-            } else if ( random.nextInt( 0, 10 ) <= 3 ) {
-                enemy.setHitPoints( enemy.getHitPoints() - this.hero.getAttack() );
-                System.out.println( "Enemy has been attacked!" );
-                System.out.println();
             }
         } else {
             if ( enemy.getAttack() > this.hero.getDefense() ) {
                 this.hero.setHitPoints( this.hero.getHitPoints() - ( enemy.getAttack() - this.hero.getDefense() ) );
-                System.out.println( enemy.getAttack() );
-                System.out.println( "Hero has been attacked!" );
-                System.out.println();
-            } else if ( random.nextInt( 0, 10 ) <= 2 ) {
-                this.hero.setHitPoints( this.hero.getHitPoints() - enemy.getAttack() );
-                System.out.println( "Hero has been attacked!" );
-                System.out.println();
             }
         }
-
-        System.out.println("HP after attack:");
-        System.out.println( "Hero HP -> " + this.hero.getHitPoints() );
-        System.out.println();
-        System.out.println( "Enemy HP -> " + enemy.getHitPoints() );
-        System.out.println();
     }
 
     private int clashOfHeroes() {
@@ -87,21 +59,21 @@ public class Controller {
         }
     }
 
-    //TODO fix logic for no fight
-    public void onFightNoButtonButtonPressed( Maps map ) {
+    public void onFightNoButtonButtonPressed( Maps map, JFrame frame ) {
         Random random = new Random();
         GuiInterface gui = new GuiInterface();
         if ( random.nextInt( 2 ) == 1 ) {
-            //TODO show info for user
-//            System.out.println( "Sorry, the odds aren’t on your side, you must fight the villain." );
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "Sorry, the odds aren’t on your side, you must fight the enemy."
+            );
             if ( clashOfHeroes() == 1 ) {
                 map.levelUP( Maps.View.GUI );
                 gui.continueGameLevelUp( map );
             } else {
                 gui.endGame( "Fight is over. You lost. GG WP" );
             }
-        }
-        else {
+        } else {
             gui.continueGame( map );
         }
     }
@@ -129,7 +101,8 @@ public class Controller {
     private void doMove( Maps map, String move ) {
         GuiInterface gui = new GuiInterface();
         if ( move.equalsIgnoreCase( "end" ) ) {
-            gui.endGame( "You reached on of the borders of the map and win. Game completed. GG WP" );
+            gui.endGame(
+                    "You reached on of the borders of the map and win. Game completed. GG WP" );
         }
         if ( move.equalsIgnoreCase( "fight" ) ) {
             gui.fight( map );
@@ -160,14 +133,24 @@ public class Controller {
         return true;
     }
 
-    public void onHeroSelectSaveButtonPressed( Hero hero, int heroId ) {
-        this.hero = hero;
-        //TODO check bounds and str
-        if (validateHeroSelect( hero) == false || (heroId < 1 || heroId > 100)) {
+    public void onHeroSelectSaveButtonPressed( DBMethods dbData, JTextField heroSelectId ) {
+        int heroId = 0;
+        try {
+            heroId = Integer.parseInt( heroSelectId.getText() );
+            if ( heroId < 1 || heroId > dbData.selectCountSavedHeroes() ) {
+                GuiInterface gui = new GuiInterface();
+                gui.displayHeroSelect();
+            }
+        } catch ( NumberFormatException e ) {
             GuiInterface gui = new GuiInterface();
             gui.displayHeroSelect();
         }
-        else {
+
+        this.hero = dbData.getHerodb( heroId );
+        if ( validateHeroSelect( hero ) == false || ( heroId < 1 || heroId > 100 ) ) {
+            GuiInterface gui = new GuiInterface();
+            gui.displayHeroSelect();
+        } else {
             GuiInterface gui = new GuiInterface();
             gui.displayHeroSelected( hero.getName() );
         }
@@ -191,6 +174,16 @@ public class Controller {
         return true;
     }
 
+    private boolean checkUniqueHeroName( String heroName, DBMethods dbData ) {
+        String[] listNames = dbData.selectAllHeroNames();
+        for ( String name : listNames ) {
+            if ( name.equalsIgnoreCase( heroName ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void onHeroSaveButtonPressed(
             JTextField heroClass,
             JTextField heroName,
@@ -199,7 +192,12 @@ public class Controller {
         if ( validateFields( heroClass.getText(), heroName.getText() ) == false ) {
             GuiInterface gui = new GuiInterface();
             gui.displayHeroCreate( 1 );
-        } else {
+        }
+        if ( checkUniqueHeroName( heroName.getText(), dbData ) == true ) {
+            GuiInterface gui = new GuiInterface();
+            gui.displayHeroCreate( 2 );
+        }
+        if ( (validateFields( heroClass.getText(), heroName.getText() ) == true) && (checkUniqueHeroName( heroName.getText(), dbData ) == false)) {
             Main.hero = HeroFactory.newHero(
                     Integer.parseInt( heroClass.getText() ),
                     heroName.getText()

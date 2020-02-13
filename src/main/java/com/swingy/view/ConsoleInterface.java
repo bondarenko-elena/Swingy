@@ -42,6 +42,17 @@ public class ConsoleInterface implements Display {
         );
     }
 
+    private boolean checkUniqueHeroName( String heroName, DBMethods dbData ) {
+        String[] listNames = dbData.selectAllHeroNames();
+        for ( String name : listNames ) {
+            if ( name.equalsIgnoreCase( heroName ) ) {
+                System.out.println( heroName + " is already in use." );
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void displayHeroCreate( int tumbler ) {
         int heroClass = 0;
@@ -51,7 +62,10 @@ public class ConsoleInterface implements Display {
 
         try {
             br = new BufferedReader( new InputStreamReader( System.in ) );
-            while ( heroName.length() < 3 || heroName.length() > 10 ) {
+            while ( ( heroName.length() < 3 || heroName.length() > 10 ) || ( checkUniqueHeroName(
+                    heroName,
+                    dbData
+            ) ) ) {
                 System.out.println( "Enter hero's name (should be 3 chars min and 10 chars max) :" );
                 heroName = br.readLine();
             }
@@ -155,18 +169,15 @@ public class ConsoleInterface implements Display {
         return variable;
     }
 
-    //TODO check logic, remove superfluous
     private int clashOfHeroes() {
         int toReturn = 2;
         Hero enemy = createEnemy();
-//        attacks( enemy );
         boolean fight;
         while ( enemy.getHitPoints() > 0 && this.hero.getHitPoints() > 0 ) {
             attacks( enemy );
         }
         fight = this.hero.getHitPoints() > 0 && enemy.getHitPoints() > 0;
         while ( fight ) {
-            attacks( enemy );
             while ( enemy.getHitPoints() > 0 && this.hero.getHitPoints() > 0 ) {
                 attacks( enemy );
             }
@@ -271,45 +282,25 @@ public class ConsoleInterface implements Display {
         return enemy;
     }
 
-    private void displayHP( Hero enemy, int tumbler ) {
-        if ( tumbler == 0 ) {
-            System.out.println( "HP before attack" );
-        } else {
-            System.out.println( "HP after attack" );
-        }
-        System.out.println( "Hero HP -> " + this.hero.getHitPoints() );
-        System.out.println( "Enemy HP -> " + enemy.getHitPoints() );
-    }
-
     private void enemyAttacked( Hero enemy ) {
-        System.out.println("Fight is starting!");
-        if ( this.hero.getAttack() > enemy.getDefense() ) {
-            enemy.setHitPoints( enemy.getHitPoints() - ( this.hero.getAttack() - enemy.getDefense() ) );
-            System.out.println( "Enemy has been attacked!" );
-        } else if ( ThreadLocalRandom.current().nextInt( 0, 10 ) <= 3 ) {
+        if ( ThreadLocalRandom.current().nextInt( 0, 10 ) <= 3 ) {
             enemy.setHitPoints( enemy.getHitPoints() - this.hero.getAttack() );
-            System.out.println( "Enemy has been attacked!" );
         }
     }
 
     private void heroAttacked( Hero enemy ) {
         if ( enemy.getAttack() > this.hero.getDefense() ) {
             this.hero.setHitPoints( this.hero.getHitPoints() - ( enemy.getAttack() - this.hero.getDefense() ) );
-            System.out.println( "Hero has been attacked!" );
         } else if ( ThreadLocalRandom.current().nextInt( 0, 10 ) <= 2 ) {
             this.hero.setHitPoints( this.hero.getHitPoints() - enemy.getAttack() );
-            System.out.println( "Hero has been attacked!" );
         }
     }
 
-    //TODO check attack statistic
     private void attacks( Hero enemy ) {
-        displayHP( enemy, 0 );
         if ( ThreadLocalRandom.current().nextInt( 0, 10 ) >= 4 ) {
             enemyAttacked( enemy );
         } else {
             heroAttacked( enemy );
         }
-        displayHP( enemy, 1 );
     }
 }

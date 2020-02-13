@@ -77,8 +77,7 @@ public class DBMethods {
             pstmt.execute();
             System.out.println( "New hero added to database" );
         } catch ( SQLException ex ) {
-            //TODO is this correct behaviour?
-            System.out.println( "ERROR: Hero name '" + heroName + "' already in use" );
+            System.out.println( "ERROR: Something is going wrong. YOu should not see this message." );
             System.exit( 0 );
         }
     }
@@ -105,6 +104,30 @@ public class DBMethods {
             System.out.println( ex.getMessage() + "selection error" );
             System.exit( 0 );
         }
+    }
+
+    public String[] selectAllHeroNames() {
+        DBConnect dbCon = new DBConnect();
+        String sql = "SELECT * FROM heroes";
+        ArrayList<String> list = new ArrayList<>();
+        String[] listArr = new String[list.size()];
+        ResultSet rs;
+        try {
+            Connection conn = dbCon.connect();
+            Statement stmt = conn.createStatement();
+            rs = stmt.executeQuery( sql );
+            while ( rs.next() ) {
+                list.add( String.format(
+                        "%s",
+                        rs.getString( "heroName" )
+                        ) );
+            }
+            listArr = list.toArray( listArr );
+        } catch ( SQLException ex ) {
+            System.out.println( ex.getMessage() + "selection error" );
+            System.exit( 0 );
+        }
+        return listArr;
     }
 
     public String[] selectAllGui() {
