@@ -6,9 +6,13 @@ import com.swingy.model.map.Maps;
 import com.swingy.model.utils.Hero;
 import com.swingy.model.utils.HeroFactory;
 import com.swingy.view.GuiInterface;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -66,7 +70,7 @@ public class Controller {
         if ( random.nextInt( 2 ) == 1 ) {
             JOptionPane.showMessageDialog(
                     frame,
-                    "Sorry, the odds aren’t on your side, you must fight the enemy."
+                    "Sorry, the odds are not on your side, you must fight the enemy."
             );
             if ( clashOfHeroes() == 1 ) {
                 map.levelUP( Maps.View.GUI );
@@ -79,27 +83,27 @@ public class Controller {
         }
     }
 
-    public void onNorthButtonPressed( Maps map ) {
+    public void onNorthButtonPressed( @NotNull Maps map ) {
         String move = map.move( "n", Maps.View.GUI );
         doMove( map, move );
     }
 
-    public void onSouthButtonPressed( Maps map ) {
+    public void onSouthButtonPressed( @NotNull Maps map ) {
         String move = map.move( "s", Maps.View.GUI );
         doMove( map, move );
     }
 
-    public void onWestButtonPressed( Maps map ) {
+    public void onWestButtonPressed( @NotNull Maps map ) {
         String move = map.move( "w", Maps.View.GUI );
         doMove( map, move );
     }
 
-    public void onEastButtonPressed( Maps map ) {
+    public void onEastButtonPressed( @NotNull Maps map ) {
         String move = map.move( "e", Maps.View.GUI );
         doMove( map, move );
     }
 
-    private void doMove( Maps map, String move ) {
+    private void doMove( Maps map, @NotNull String move ) {
         GuiInterface gui = new GuiInterface();
         if ( move.equalsIgnoreCase( "end" ) ) {
             gui.endGame(
@@ -122,11 +126,15 @@ public class Controller {
         GuiInterface.switchView();
     }
 
+    @Contract( value = "null -> false; !null -> true", pure = true )
     private boolean validateHeroSelect( Hero hero ) {
         return hero != null;
     }
 
-    public void onHeroSelectSaveButtonPressed( DBMethods dbData, JTextField heroSelectId ) {
+    public void onHeroSelectSaveButtonPressed(
+            DBMethods dbData,
+            @NotNull JTextField heroSelectId
+    ) {
         int heroId = 0;
         try {
             heroId = Integer.parseInt( heroSelectId.getText() );
@@ -160,14 +168,11 @@ public class Controller {
     }
 
     private boolean validateFields( String heroClass, String heroName ) {
-        if ( ( !( ( heroClass.equalsIgnoreCase( "1" ) || heroClass.equalsIgnoreCase( "2" ) || heroClass
-                .equalsIgnoreCase( "3" ) ) ) ) || ( heroName.length() < 3 || heroName.length() > 10 ) ) {
-            return false;
-        }
-        return true;
+        List<String> heroClasses = Arrays.asList( "1", "2", "3" );
+        return ( heroClasses.contains( heroClass ) ) && ( heroName.length() >= 3 && heroName.length() <= 10 );
     }
 
-    private boolean checkUniqueHeroName( String heroName, DBMethods dbData ) {
+    private boolean checkUniqueHeroName( String heroName, @NotNull DBMethods dbData ) {
         ArrayList<String> listNames = dbData.selectAllHeroNames();
         for ( String name : listNames ) {
             if ( name.equalsIgnoreCase( heroName ) ) {
@@ -178,8 +183,8 @@ public class Controller {
     }
 
     public void onHeroSaveButtonPressed(
-            JTextField heroClass,
-            JTextField heroName,
+            @NotNull JTextField heroClass,
+            @NotNull JTextField heroName,
             DBMethods dbData
     ) {
         if ( !validateFields( heroClass.getText(), heroName.getText() ) ) {
@@ -193,8 +198,8 @@ public class Controller {
         if ( ( validateFields(
                 heroClass.getText(),
                 heroName.getText()
-        ) ) && ( !checkUniqueHeroName( heroName.getText(), dbData ) )) {
-            Main.hero = HeroFactory.newHero(
+        ) ) && ( !checkUniqueHeroName( heroName.getText(), dbData ) ) ) {
+            Main.hero[0] = HeroFactory.newHero(
                     Integer.parseInt( heroClass.getText() ),
                     heroName.getText()
             );

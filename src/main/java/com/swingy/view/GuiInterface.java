@@ -78,7 +78,7 @@ public class GuiInterface extends JPanel implements Display {
     }
 
     @Override
-    public void runGame() {
+    public void runGame(Hero[] hero) {
         GridBagConstraints gbc = setStyle( "Start" );
 
         this.add( heroCreateButton, gbc );
@@ -112,10 +112,11 @@ public class GuiInterface extends JPanel implements Display {
             frame.setVisible( false );
         }
         ConsoleInterface console = new ConsoleInterface();
-        Hero hero = console.displayStart();
-        if ( hero == null ) {
+        Hero hero[] = null;
+        hero[0]= console.displayStart();
+        if ( hero[0] == null ) {
             GuiInterface gui = new GuiInterface();
-            gui.runGame();
+            gui.runGame(hero);
         } else {
             console.runGame( hero );
         }
@@ -200,6 +201,7 @@ public class GuiInterface extends JPanel implements Display {
         this.add( listScroll );
     }
 
+    // todo scroll should be resizable
     private void setScroll( JList jlist ) {
         jlist.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         jlist.setLayoutOrientation( JList.VERTICAL );

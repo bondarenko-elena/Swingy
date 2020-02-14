@@ -15,7 +15,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ConsoleInterface implements Display {
-    private Hero hero = null;
+    private Hero[] hero = null;
     private final DBMethods dbData = new DBMethods();
 
 
@@ -71,8 +71,8 @@ public class ConsoleInterface implements Display {
             }
             System.exit( 1 );
         } finally {
-            hero = HeroFactory.newHero( heroClass, heroName );
-            dbData.addHero( hero );
+            hero[0] = HeroFactory.newHero( heroClass, heroName );
+            dbData.addHero( hero[0] );
             System.out.println( "Hero created successfully" );
         }
     }
@@ -114,18 +114,18 @@ public class ConsoleInterface implements Display {
                         System.out.println( exceptionMessage );
                     }
                 }
-                hero = dbData.getHerodb( heroChoice );
+                hero[0] = dbData.getHerodb( heroChoice );
             } else if ( optionChoice == 2 ) {
                 displayHeroCreate( 0 );
             } else {
                 System.out.println( "Gui view is opened" );
                 GuiInterface gui = new GuiInterface();
-                gui.runGame();
+                gui.runGame( hero );
                 return null;
             }
         } catch ( Exception ex ) {
             System.out.println( "ERROR: Invalid input" );
-            System.out.println( ex.getMessage() );
+            ex.printStackTrace();
             try {
                 br.close();
             } catch ( IOException e ) {
@@ -134,8 +134,8 @@ public class ConsoleInterface implements Display {
             System.exit( 1 );
         }
         System.out.println( "Here is chosen hero." );
-        System.out.println( hero );
-        return hero;
+        System.out.println( hero[0] );
+        return hero[0];
     }
 
     private int parseString( int variable, BufferedReader br ) throws IOException {
@@ -152,27 +152,24 @@ public class ConsoleInterface implements Display {
 
     private boolean clashOfHeroes() {
         Hero enemy = createEnemy();
-        while ( enemy.getHitPoints() > 0 && hero.getHitPoints() > 0 ) {
+        while ( enemy.getHitPoints() > 0 && hero[0].getHitPoints() > 0 ) {
             attacks( enemy );
         }
-        return ( enemy.getHitPoints() <= 0 ) && ( hero.getHitPoints() > 0 );
+        return ( enemy.getHitPoints() <= 0 ) && ( hero[0].getHitPoints() > 0 );
     }
 
     @Override
-    public void runGame() {
-    }
-
-    public void runGame( Hero heroToRun ) {
+    public void runGame( Hero heroToRun[] ) {
         BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
-        this.hero = heroToRun;
+        this.hero[0] = heroToRun[0];
         System.out.println( "Here is your map." );
-        Maps map = new Maps( this.hero, Maps.View.CONSOLE );
+        Maps map = new Maps( this.hero[0], Maps.View.CONSOLE );
         while ( true ) {
             try {
                 System.out.println(
                         "You can move through the map by keyboard: N - north, S - south, E - east, W - west. Choose direction: " );
                 String readMove = br.readLine();
-                List<String> moves =  Arrays.asList( "n", "s", "e", "w" );
+                List<String> moves = Arrays.asList( "n", "s", "e", "w" );
                 while ( !moves.contains( readMove.toLowerCase() ) ) {
                     System.out.println( "Use N, S, E or W for direction. Choose direction: " );
                     readMove = br.readLine();
@@ -196,7 +193,8 @@ public class ConsoleInterface implements Display {
                     } else if ( fight.equalsIgnoreCase( "n" ) ) {
                         Random random = new Random();
                         if ( random.nextInt( 2 ) == 0 ) {
-                            System.out.println( "Sorry, the odds aren’t on your side, you must fight the enemy." );
+                            System.out.println(
+                                    "Sorry, the odds aren’t on your side, you must fight the enemy." );
                             doFight( map );
                         } else {
                             System.out.println( "You stayed on the same place." );
@@ -235,19 +233,20 @@ public class ConsoleInterface implements Display {
     }
 
     private void enemyAttacked( Hero enemy ) {
-        if ( this.hero.getAttack() > enemy.getDefense() ) {
-            enemy.setHitPoints( enemy.getHitPoints() - ( this.hero.getAttack() - enemy.getDefense() ) );
+        if ( this.hero[0].getAttack() > enemy.getDefense() ) {
+            enemy.setHitPoints( enemy.getHitPoints() - ( this.hero[0].getAttack() - enemy.getDefense() ) );
         }
         if ( ThreadLocalRandom.current().nextInt( 0, 10 ) <= 3 ) {
-            enemy.setHitPoints( enemy.getHitPoints() - this.hero.getAttack() );
+            enemy.setHitPoints( enemy.getHitPoints() - this.hero[0].getAttack() );
         }
     }
 
     private void heroAttacked( Hero enemy ) {
-        if ( enemy.getAttack() > this.hero.getDefense() ) {
-            this.hero.setHitPoints( this.hero.getHitPoints() - ( enemy.getAttack() - this.hero.getDefense() ) );
+        if ( enemy.getAttack() > this.hero[0].getDefense() ) {
+            this.hero[0].setHitPoints( this.hero[0].getHitPoints() - ( enemy.getAttack() - this.hero[0]
+                    .getDefense() ) );
         } else if ( ThreadLocalRandom.current().nextInt( 0, 10 ) <= 2 ) {
-            this.hero.setHitPoints( this.hero.getHitPoints() - enemy.getAttack() );
+            this.hero[0].setHitPoints( this.hero[0].getHitPoints() - enemy.getAttack() );
         }
     }
 

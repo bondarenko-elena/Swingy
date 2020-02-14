@@ -176,6 +176,7 @@ public class Maps {
         }
     }
 
+    //todo check levels, set max size
     public void levelUP( View view ) {
         if ( view == View.CONSOLE ) {
             System.out.println( "You have won the fight and achieved new level!" );
