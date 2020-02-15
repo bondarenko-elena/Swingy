@@ -51,8 +51,12 @@ public class Controller {
     public void onFightYesButtonButtonPressed( Maps map ) {
         if ( clashOfHeroes() == 1 ) {
             GuiInterface gui = new GuiInterface();
-            map.levelUP( Maps.View.GUI );
-            gui.continueGameLevelUp( map );
+            if ( hero.getLevel() == 7 ) {
+                gui.endGame( "You have got last level! Game completed. GG WP" );
+            } else {
+                map.levelUP( Maps.View.GUI );
+                gui.continueGameLevelUp( map );
+            }
         } else {
             GuiInterface gui = new GuiInterface();
             gui.endGame( "Fight is over. You lost. GG WP" );

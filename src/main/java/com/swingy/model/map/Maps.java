@@ -180,7 +180,17 @@ public class Maps {
         if ( view == View.CONSOLE ) {
             System.out.println( "You have won the fight and achieved new level!" );
         }
+        if ( hero.getLevel() == 7 ) {
+            if ( view == View.CONSOLE ) {
+                System.out.println( "You have got last level! Game completed. GG WP" );
+                System.exit( 0 );
+            }
+            // todo max lvl for gui
+        }
         this.hero.setLevel( ++this.level );
+        if ( view == View.CONSOLE ) {
+            System.out.println( "Your level is " + hero.getLevel() );
+        }
         this.setMap( this.hero );
         setEnemy();
         if ( view == View.CONSOLE ) {
@@ -189,7 +199,6 @@ public class Maps {
         if ( view == View.GUI ) {
             refreshData();
         }
-        this.hero.setLevel( ++level );
     }
 
     public String move( String direction, View view ) {

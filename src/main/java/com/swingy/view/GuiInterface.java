@@ -25,11 +25,9 @@ public class GuiInterface extends JPanel implements Display {
     private JButton westButton = new JButton( "West" );
     private JButton yesButton = new JButton( "Yes" );
     private JButton noButton = new JButton( "No" );
-    private JButton okButton = new JButton( "OK" );
     private JTextField heroName;
     private JTextField heroClass;
     private JTextField heroSelectId;
-    private int heroId;
     private Controller controller = Controller.getInstance();
     private static JFrame frame;
     private JList list;
@@ -41,7 +39,6 @@ public class GuiInterface extends JPanel implements Display {
         getFrame().addWindowListener( new WindowAdapter() {
             @Override
             public void windowClosing( WindowEvent e ) {
-//                closeConnections();
                 super.windowClosing( e );
             }
         } );
@@ -58,7 +55,7 @@ public class GuiInterface extends JPanel implements Display {
     }
 
     private GridBagConstraints setStyle( String windowTitle ) {
-        this.getFrame().setTitle( windowTitle );
+        getFrame().setTitle( windowTitle );
         this.setLayout( new GridBagLayout() );
         this.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
         GridBagConstraints gbc = new GridBagConstraints();
@@ -70,8 +67,8 @@ public class GuiInterface extends JPanel implements Display {
 
     private void setVisible() {
         this.setVisible( true );
-        this.getFrame().setContentPane( this );
-        this.getFrame().revalidate();
+        getFrame().setContentPane( this );
+        getFrame().revalidate();
         if ( frame != null ) {
             frame.setVisible( true );
         }
