@@ -72,7 +72,7 @@ public class Maps {
         if ( view == View.CONSOLE ) {
             System.out.println( str );
         }
-        if ( view == View.GUI) {
+        if ( view == View.GUI ) {
             refreshData();
         }
     }

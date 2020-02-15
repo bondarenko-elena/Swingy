@@ -1,6 +1,5 @@
 package com.swingy.controller;
 
-import com.swingy.Main;
 import com.swingy.database.DBMethods;
 import com.swingy.model.map.Maps;
 import com.swingy.model.utils.Hero;
@@ -66,7 +65,7 @@ public class Controller {
         if ( random.nextInt( 2 ) == 1 ) {
             JOptionPane.showMessageDialog(
                     frame,
-                    "Sorry, the odds aren’t on your side, you must fight the enemy."
+                    "Sorry, the odds are not on your side, you must fight the enemy."
             );
             if ( clashOfHeroes() == 1 ) {
                 map.levelUP( Maps.View.GUI );
@@ -140,11 +139,10 @@ public class Controller {
         }
 
         this.hero = dbData.getHerodb( heroId );
+        GuiInterface gui = new GuiInterface();
         if ( !validateHeroSelect( hero ) || ( heroId < 1 || heroId > 100 ) ) {
-            GuiInterface gui = new GuiInterface();
             gui.displayHeroSelect();
         } else {
-            GuiInterface gui = new GuiInterface();
             gui.displayHeroSelected( hero.getName() );
         }
     }
@@ -160,11 +158,8 @@ public class Controller {
     }
 
     private boolean validateFields( String heroClass, String heroName ) {
-        if ( ( !( ( heroClass.equalsIgnoreCase( "1" ) || heroClass.equalsIgnoreCase( "2" ) || heroClass
-                .equalsIgnoreCase( "3" ) ) ) ) || ( heroName.length() < 3 || heroName.length() > 10 ) ) {
-            return false;
-        }
-        return true;
+        return ( heroClass.equalsIgnoreCase( "1" ) || heroClass.equalsIgnoreCase( "2" ) || heroClass
+                .equalsIgnoreCase( "3" ) ) && ( heroName.length() >= 3 && heroName.length() <= 10 );
     }
 
     private boolean checkUniqueHeroName( String heroName, DBMethods dbData ) {
@@ -193,8 +188,8 @@ public class Controller {
         if ( ( validateFields(
                 heroClass.getText(),
                 heroName.getText()
-        ) ) && ( !checkUniqueHeroName( heroName.getText(), dbData ) )) {
-            Main.hero = HeroFactory.newHero(
+        ) ) && ( !checkUniqueHeroName( heroName.getText(), dbData ) ) ) {
+            hero = HeroFactory.newHero(
                     Integer.parseInt( heroClass.getText() ),
                     heroName.getText()
             );

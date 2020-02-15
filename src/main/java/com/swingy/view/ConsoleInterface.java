@@ -20,12 +20,7 @@ public class ConsoleInterface implements Display {
 
 
     private void displayHeroClasses() {
-        // TODO collapse into one
-        System.out.println( "Choose Hero class:" );
-        System.out.println( "   Class       Attack      Defense     HP" );
-        System.out.println( "1. Witcher     150         120          250" );
-        System.out.println( "2. Mage         110         100          250" );
-        System.out.println( "3. Fighter       140         100          300" );
+        System.out.println( "Choose Hero class:" + "\n" + "Class Attack Defense HP" + "\n" + "1. Witcher 150 120 250" + "\n" + "2. Mage 110 100 250" + "\n" + "3. Fighter 140 100 300" );
     }
 
     private boolean checkUniqueHeroName( final String heroName ) {
@@ -78,12 +73,7 @@ public class ConsoleInterface implements Display {
     }
 
     private void displayChooseOptions() {
-        // todo collapse into one
-        System.out.println( "---WELCOME TO THE GAME---" );
-        System.out.println( "Choose an option:" );
-        System.out.println( "1. Select a previously created hero" );
-        System.out.println( "2. Create a hero" );
-        System.out.println( "3. Switch view" );
+        System.out.println( "---WELCOME TO THE GAME---" + "\n" + "Choose an option:" + "\n" + "1. Select a previously created hero" + "\n" + "2. Create a hero" + "\n" + "3. Switch view" );
     }
 
     @Override
@@ -102,7 +92,6 @@ public class ConsoleInterface implements Display {
                 dbData.selectAll();
                 int heroCount = dbData.selectCountSavedHeroes();
                 String exceptionMessage = "There is no hero with this ID. Choose a hero from the list above.";
-                // todo (optionally) rethink logic
                 while ( heroChoice < 1 || heroChoice > heroCount ) {
                     try {
                         heroChoice = Integer.parseInt( br.readLine() );
@@ -172,7 +161,7 @@ public class ConsoleInterface implements Display {
                 System.out.println(
                         "You can move through the map by keyboard: N - north, S - south, E - east, W - west. Choose direction: " );
                 String readMove = br.readLine();
-                List<String> moves =  Arrays.asList( "n", "s", "e", "w" );
+                List<String> moves = Arrays.asList( "n", "s", "e", "w" );
                 while ( !moves.contains( readMove.toLowerCase() ) ) {
                     System.out.println( "Use N, S, E or W for direction. Choose direction: " );
                     readMove = br.readLine();
@@ -196,7 +185,8 @@ public class ConsoleInterface implements Display {
                     } else if ( fight.equalsIgnoreCase( "n" ) ) {
                         Random random = new Random();
                         if ( random.nextInt( 2 ) == 0 ) {
-                            System.out.println( "Sorry, the odds aren’t on your side, you must fight the enemy." );
+                            System.out.println(
+                                    "Sorry, the odds aren’t on your side, you must fight the enemy." );
                             doFight( map );
                         } else {
                             System.out.println( "You stayed on the same place." );
