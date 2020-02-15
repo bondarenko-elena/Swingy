@@ -52,6 +52,24 @@ public class DBMethods {
         }
     }
 
+    protected void truncateTable() {
+
+        DBConnect dbCon = new DBConnect();
+
+        String sql = "DELETE FROM heroes" ;
+
+        try (
+                Connection conn = dbCon.connect();
+                Statement stmt = conn.createStatement()
+        ) {
+            stmt.executeUpdate( sql );
+            System.out.println( "table truncated" );
+        } catch ( SQLException ex ) {
+            System.out.println( ex.getMessage() + "\nError: cannot truncate table" );
+            System.exit( 0 );
+        }
+    }
+
     public void addHero( Hero hero ) {
         DBConnect dbCon = new DBConnect();
         String sql = "INSERT INTO heroes (heroName, heroClass, heroLevel, heroExp, heroHP, heroAtk, heroDef) VALUES (?,?,?,?,?,?,?)";

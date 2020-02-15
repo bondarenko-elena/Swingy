@@ -14,9 +14,9 @@ public class HeroFactory {
             case 1:
                 return new Witcher( heroName );
             case 2:
-                return new Fighter( heroName );
-            case 3:
                 return new Mage( heroName );
+            case 3:
+                return new Fighter( heroName );
             case 4:
                 return new Serpent();
             case 5:
