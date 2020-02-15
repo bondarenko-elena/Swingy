@@ -3,11 +3,36 @@
   <component name="ChangeListManager">
     <list default="true" id="43e273ef-d870-4eb6-9649-5cae25b5b81d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swingy.db" beforeDir="false" afterPath="$PROJECT_DIR$/Swingy.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swingy/database/DBMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swingy/database/DBMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swingy/model/utils/HeroFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swingy/model/utils/HeroFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/database/DBMethods.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/database/DBMethods.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/model/utils/HeroFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/model/utils/HeroFactory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swingy/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swingy/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swingy/model/map/Maps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swingy/model/map/Maps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swingy/view/ConsoleInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swingy/view/ConsoleInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swingy/view/Display.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swingy/view/Display.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swingy/view/GuiInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swingy/view/GuiInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/database/DBConnect.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/database/DBConnect.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/ConsoleInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/ConsoleInterface.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/Display.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/Display.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$15.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$16.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$16.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$17.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$17.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$18.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$18.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$19.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$19.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$20.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$20.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$21.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$21.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/swingy/view/GuiInterface.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +101,7 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.swingy.Main" />
       <module name="Swingy-FINAL" />
-      <option name="PROGRAM_PARAMETERS" value="gui" />
+      <option name="PROGRAM_PARAMETERS" value="console" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.swingy.*" />
@@ -188,7 +213,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -201,10 +228,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="new oleh's version" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="254" y="83" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581795636078">
+    <state x="254" y="83" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581799117907">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="254" y="83" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1600.860@0.0.1600.860" timestamp="1581795636078" />
+    <state x="254" y="83" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1600.860@0.0.1600.860" timestamp="1581799117907" />
     <state x="444" y="23" width="944" height="814" key="CommitChangelistDialog2" timestamp="1581631039511">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -213,38 +240,46 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="92" y="92" width="1416" height="676" key="DiffContextDialog/0.0.1600.860@0.0.1600.860" timestamp="1581629437566" />
-    <state width="1556" height="218" key="GridCell.Tab.0.bottom" timestamp="1581795956872">
+    <state width="1556" height="259" key="GridCell.Tab.0.bottom" timestamp="1581799432851">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1556" height="218" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1581795956872" />
-    <state width="1556" height="218" key="GridCell.Tab.0.center" timestamp="1581795956871">
+    <state width="1556" height="259" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1581799432851" />
+    <state width="1556" height="259" key="GridCell.Tab.0.center" timestamp="1581799432851">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1556" height="218" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1581795956871" />
-    <state width="1556" height="218" key="GridCell.Tab.0.left" timestamp="1581795956871">
+    <state width="1556" height="259" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1581799432851" />
+    <state width="1556" height="259" key="GridCell.Tab.0.left" timestamp="1581799432850">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1556" height="218" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1581795956871" />
-    <state width="1556" height="218" key="GridCell.Tab.0.right" timestamp="1581795956871">
+    <state width="1556" height="259" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1581799432850" />
+    <state width="1556" height="259" key="GridCell.Tab.0.right" timestamp="1581799432851">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1556" height="218" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1581795956871" />
-    <state width="1556" height="259" key="GridCell.Tab.1.bottom" timestamp="1581795916291">
+    <state width="1556" height="259" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1581799432851" />
+    <state width="1556" height="259" key="GridCell.Tab.1.bottom" timestamp="1581799437927">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1556" height="259" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1581795916291" />
-    <state width="1556" height="259" key="GridCell.Tab.1.center" timestamp="1581795916291">
+    <state width="1556" height="259" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1581799437927" />
+    <state width="1556" height="259" key="GridCell.Tab.1.center" timestamp="1581799437927">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1556" height="259" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1581795916291" />
-    <state width="1556" height="259" key="GridCell.Tab.1.left" timestamp="1581795916291">
+    <state width="1556" height="259" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1581799437927" />
+    <state width="1556" height="259" key="GridCell.Tab.1.left" timestamp="1581799437926">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1556" height="259" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1581795916291" />
-    <state width="1556" height="259" key="GridCell.Tab.1.right" timestamp="1581795916291">
+    <state width="1556" height="259" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1581799437926" />
+    <state width="1556" height="259" key="GridCell.Tab.1.right" timestamp="1581799437927">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1556" height="259" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1581795916291" />
+    <state width="1556" height="259" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1581799437927" />
+    <state x="152" y="66" key="MergeDialog" timestamp="1581796634716">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="152" y="66" key="MergeDialog/0.0.1600.860@0.0.1600.860" timestamp="1581796634716" />
+    <state x="505" y="144" width="902" height="513" key="MultipleFileMergeDialog" timestamp="1581796653056">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="505" y="144" width="902" height="513" key="MultipleFileMergeDialog/0.0.1600.860@0.0.1600.860" timestamp="1581796653056" />
     <state x="615" y="362" key="ReplaceDuplicatesPrompt" timestamp="1581630733882">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -280,13 +315,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/swingy/controller/Controller.java</url>
-          <line>183</line>
+          <line>175</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/swingy/view/ConsoleInterface.java</url>
           <line>42</line>
           <option name="timeStamp" value="132" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/swingy/Main.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="135" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/swingy/Main.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="136" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/swingy/Main.java</url>
+          <line>18</line>
+          <option name="timeStamp" value="137" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

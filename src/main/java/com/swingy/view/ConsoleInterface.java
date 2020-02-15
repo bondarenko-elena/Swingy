@@ -109,12 +109,12 @@ public class ConsoleInterface implements Display {
             } else {
                 System.out.println( "Gui view is opened" );
                 GuiInterface gui = new GuiInterface();
-                gui.runGame();
+                gui.runGame( hero );
                 return null;
             }
         } catch ( Exception ex ) {
             System.out.println( "ERROR: Invalid input" );
-            System.out.println( ex.getMessage() );
+            ex.printStackTrace();
             try {
                 br.close();
             } catch ( IOException e ) {
@@ -148,12 +148,9 @@ public class ConsoleInterface implements Display {
     }
 
     @Override
-    public void runGame() {
-    }
-
-    public void runGame( Hero heroToRun ) {
+    public void runGame( Hero ... heroToRun ) {
         BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
-        this.hero = heroToRun;
+        this.hero = heroToRun[0];
         System.out.println( "Here is your map." );
         Maps map = new Maps( this.hero, Maps.View.CONSOLE );
         while ( true ) {
@@ -235,7 +232,8 @@ public class ConsoleInterface implements Display {
 
     private void heroAttacked( Hero enemy ) {
         if ( enemy.getAttack() > this.hero.getDefense() ) {
-            this.hero.setHitPoints( this.hero.getHitPoints() - ( enemy.getAttack() - this.hero.getDefense() ) );
+            this.hero.setHitPoints( this.hero.getHitPoints() - ( enemy.getAttack() - this.hero
+                    .getDefense() ) );
         } else if ( ThreadLocalRandom.current().nextInt( 0, 10 ) <= 2 ) {
             this.hero.setHitPoints( this.hero.getHitPoints() - enemy.getAttack() );
         }

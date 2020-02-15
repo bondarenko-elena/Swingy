@@ -1,6 +1,7 @@
 package com.swingy;
 
 import com.swingy.model.utils.Hero;
+import com.swingy.view.Display;
 import com.swingy.view.GuiInterface;
 import com.swingy.view.ConsoleInterface;
 
@@ -12,17 +13,15 @@ public class Main {
                 "gui" ) ) ) {
             System.out.println( "Usage: program console || gui" );
         } else if ( args[0].equalsIgnoreCase( "console" ) ) {
-            ConsoleInterface console = new ConsoleInterface();
-            hero = console.displayStart();
+            Display game =  new ConsoleInterface();
+            hero = game.displayStart();
             if ( hero == null ) {
-                GuiInterface gui = new GuiInterface();
-                gui.runGame();
-            } else {
-                console.runGame( hero );
+                game = new GuiInterface();
             }
+            game.runGame( hero );
         } else if ( args[0].equalsIgnoreCase( "gui" ) ) {
             GuiInterface gui = new GuiInterface();
-            gui.runGame();
+            gui.runGame( hero );
         }
     }
 }
