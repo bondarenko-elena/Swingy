@@ -9,8 +9,8 @@ public class Main {
     public static Hero hero;
 
     public static void main( String[] args ) throws NumberFormatException {
-        if ( !( args.length == 1 || args[0].equalsIgnoreCase( "console" ) || args[0].equalsIgnoreCase(
-                "gui" ) ) ) {
+        if ( !( args.length == 1 && (args[0].equalsIgnoreCase( "console" ) || args[0].equalsIgnoreCase(
+                "gui" ) ) ) ) {
             System.out.println( "Usage: program console || gui" );
         } else if ( args[0].equalsIgnoreCase( "console" ) ) {
             Display game =  new ConsoleInterface();
