@@ -37,4 +37,6 @@ Leveling up is based on the following formulalevel*1000+(level−1)2*450. So the
 Bonus part:
     •You persist the user’s heroes in a relational database, instead of a text file.
     •You can switch between console view and GUI view at runtime, without closing thegame.
-![alt tag](https://github.com/bondarenko-elena/7_Fdf/blob/master/Screen%20Shot%202018-12-02%20at%205.46.10%20PM.png)
+![alt tag](https://github.com/bondarenko-elena/Swingy/blob/master/1.PNG)
+![alt tag](https://github.com/bondarenko-elena/Swingy/blob/master/2.PNG)
+![alt tag](https://github.com/bondarenko-elena/Swingy/blob/master/3.PNG)
