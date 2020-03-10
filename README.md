@@ -55,21 +55,21 @@ If a hero wins a battle, he gains:
 
 Leveling up is based on the following formulalevel*1000+(level−1)2*450. So thenecessary experience to level up will follow this pattern:
     
-    •Level 1 - 1000 XP
+   •Level 1 - 1000 XP
     
-    •Level 2 - 2450 XP
+   •Level 2 - 2450 XP
     
-    •Level 3 - 4800 XP
+   •Level 3 - 4800 XP
     
-    •Level 4 - 8050 XP
+   •Level 4 - 8050 XP
     
-    •Level 5 - 12200 XP
+   •Level 5 - 12200 XP
     
 Bonus part:
 
-    •You persist the user’s heroes in a relational database, instead of a text file.
+   •You persist the user’s heroes in a relational database, instead of a text file.
     
-    •You can switch between console view and GUI view at runtime, without closing thegame.
+   •You can switch between console view and GUI view at runtime, without closing thegame.
     
 ![alt tag](https://github.com/bondarenko-elena/Swingy/blob/master/1.PNG)
 ![alt tag](https://github.com/bondarenko-elena/Swingy/blob/master/2.PNG)
