@@ -4,16 +4,25 @@ The program follows the Model-View-Controller architecture and allows witching b
 
 # Gameplay
 A player can have multiple heroes of different types. We leave it at you to name the herotypes and fine tune the different starting stats between them, When the player starts thegame he has 2 options:
+
   •Create a hero
+  
   •Select a previously created hero.
   
 In either case, the player can see the hero stats:
+
   •Hero name
+  
   •Hero class
+  
   •Level
+  
   •Experience
+  
   •Attack
+  
   •Defense
+  
   •Hit Points
   
 After choosing a hero the actual game begins. The hero needs to navigate a squaremap with the size calculated by the formula (level-1)*5+10-(level%2)*. For example ahero of level 7 will be placed on a 39X39 map.
